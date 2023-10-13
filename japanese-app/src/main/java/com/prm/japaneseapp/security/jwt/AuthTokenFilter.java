@@ -1,4 +1,4 @@
-package com.prm.japaneseapp.config.security.jwt;
+package com.prm.japaneseapp.security.jwt;
 
 import io.jsonwebtoken.*;
 import lombok.extern.slf4j.Slf4j;

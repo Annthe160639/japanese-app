@@ -1,4 +1,4 @@
-package com.prm.japaneseapp.config.security.jwt;
+package com.prm.japaneseapp.security.jwt;
 
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;

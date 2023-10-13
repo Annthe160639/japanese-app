@@ -1,4 +1,4 @@
-package com.prm.japaneseapp.config.security.service;
+package com.prm.japaneseapp.security.service;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;

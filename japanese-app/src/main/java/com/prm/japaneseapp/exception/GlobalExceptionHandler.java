@@ -1,79 +1,59 @@
 package com.prm.japaneseapp.exception;
 
+import com.prm.japaneseapp.model.response.ResponseFactory;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.springframework.http.HttpStatus.BAD_REQUEST;
 
 @RestControllerAdvice
 @Slf4j
+@RequiredArgsConstructor
 public class GlobalExceptionHandler {
+
+    private final ResponseFactory responseFactory;
+
     @ExceptionHandler(BadCredentialsException.class)
     public CustomExceptionBody handleExceptionA(Exception e) {
         return new CustomExceptionBody(e);
     }
 
-
-    // Nên bắt cả Exception.class
     @ExceptionHandler(Exception.class)
     public ResponseEntity<String> handleUnwantedException(Exception e) {
         log.error(e.getMessage(), e.getStackTrace());
         return ResponseEntity.status(500).body(e.getMessage());
     }
 
-    @ResponseStatus(BAD_REQUEST)
-    @ResponseBody
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public Error methodArgumentNotValidException(MethodArgumentNotValidException ex) {
-        BindingResult result = ex.getBindingResult();
-        List<FieldError> fieldErrors = result.getFieldErrors();
-        return processFieldErrors(fieldErrors);
-    }
+//    @ResponseBody
+//    @ExceptionHandler(MethodArgumentNotValidException.class)
+//    public ResponseEntity<Object> methodArgumentNotValidException(MethodArgumentNotValidException ex) {
+//        Map<String, String> errors = new HashMap<>();
+//        ex.getBindingResult().getAllErrors().forEach((error) -> {
+//            String fieldName = ((FieldError) error).getField();
+//            String errorMessage = error.getDefaultMessage();
+//            errors.put(fieldName, errorMessage);
+//        });
+//        return this.createResponse(ResponseStatusCode.VALIDATION_FAILED, errors);
+//    }
 
-    private Error processFieldErrors(List<FieldError> fieldErrors) {
-        Error error = new Error(BAD_REQUEST.value(), "validation error");
-        for (org.springframework.validation.FieldError fieldError : fieldErrors) {
-            error.addFieldError(fieldError.getField(), fieldError.getDefaultMessage());
-        }
-        return error;
-    }
+//    @ExceptionHandler({AuthenticationException.class})
+//    @ResponseBody
+//    public ResponseEntity<Object> handleAuthenticationException(AuthenticationException ex) {
+////        responseFactory.success();
+////        RestError re = new RestError(HttpStatus.UNAUTHORIZED.toString(),
+////                "Authentication failed at controller advice");
+////        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(re);
+//        return this.createResponse(ResponseStatusCode.VALIDATION_FAILED, "errors");
+//    }
 
-    static class Error {
-        private final int status;
-        private final String message;
-        private List<FieldError> fieldErrors = new ArrayList<>();
+//    private ResponseEntity<Object> createResponse(ResponseStatusCode response, Object errors) {
+//        ResponseStatus responseStatus = new ResponseStatus(response);
+//        GeneralResponse<Object> responseObject = new GeneralResponse<>();
+//        responseObject.setStatus(responseStatus);
+//        responseObject.setData(errors);
+//        return new ResponseEntity<>(responseObject, HttpStatus.valueOf(response.getCode()));
+//    }
 
-        Error(int status, String message) {
-            this.status = status;
-            this.message = message;
-        }
-
-        public int getStatus() {
-            return status;
-        }
-
-        public String getMessage() {
-            return message;
-        }
-
-        public void addFieldError(String path, String message) {
-            FieldError error = new FieldError(path, message, message);
-            fieldErrors.add(error);
-        }
-
-        public List<FieldError> getFieldErrors() {
-            return fieldErrors;
-        }
-    }
 }

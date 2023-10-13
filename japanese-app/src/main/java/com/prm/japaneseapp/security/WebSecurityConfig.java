@@ -1,8 +1,8 @@
-package com.prm.japaneseapp.config.security;
+package com.prm.japaneseapp.security;
 
-import com.prm.japaneseapp.config.security.jwt.AuthEntryPointJwt;
-import com.prm.japaneseapp.config.security.jwt.AuthTokenFilter;
-import com.prm.japaneseapp.config.security.jwt.CustomAccessDeniedHandler;
+import com.prm.japaneseapp.security.jwt.AuthEntryPointJwt;
+import com.prm.japaneseapp.security.jwt.AuthTokenFilter;
+import com.prm.japaneseapp.security.jwt.CustomAccessDeniedHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -1,4 +1,4 @@
-package com.prm.japaneseapp.config.security.service;
+package com.prm.japaneseapp.security.service;
 
 import com.prm.japaneseapp.model.entity.AccountEntity;
 import com.prm.japaneseapp.repository.AccountRepository;
