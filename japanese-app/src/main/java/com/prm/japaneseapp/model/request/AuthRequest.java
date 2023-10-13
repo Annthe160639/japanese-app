@@ -1,4 +1,4 @@
-package com.prm.japaneseapp.model;
+package com.prm.japaneseapp.model.request;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -6,6 +6,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class AuthRequest {
-    private String username;
+    private String mail;
     private String password;
 }
