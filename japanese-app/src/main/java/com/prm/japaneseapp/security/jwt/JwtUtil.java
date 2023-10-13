@@ -1,7 +1,7 @@
-package com.prm.japaneseapp.config.security.jwt;
+package com.prm.japaneseapp.security.jwt;
 
-import com.prm.japaneseapp.config.security.service.UserDetailsImpl;
-import com.prm.japaneseapp.config.security.service.UserDetailsServiceImpl;
+import com.prm.japaneseapp.security.service.UserDetailsImpl;
+import com.prm.japaneseapp.security.service.UserDetailsServiceImpl;
 import com.prm.japaneseapp.repository.AccountRepository;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
