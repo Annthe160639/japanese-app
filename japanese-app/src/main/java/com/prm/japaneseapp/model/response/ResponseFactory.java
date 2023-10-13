@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import java.util.Collection;
 
 @Component
-public class ResponseFactoryCustom {
+public class ResponseFactory {
     public ResponseEntity<Object> success(Object data, Class<?> clazz) {
         GeneralResponse<Object> responseObject = new GeneralResponse<>();
         ResponseStatus responseStatus = new ResponseStatus(ResponseStatusCode.SUCCESS);
@@ -24,6 +24,13 @@ public class ResponseFactoryCustom {
     }
 
     public ResponseEntity<Object> fail(ResponseStatusCode responseStatusEnum) {
+        ResponseNoBody responseObject = new ResponseNoBody();
+        ResponseStatus responseStatus = new ResponseStatus(responseStatusEnum);
+        responseObject.setStatus(responseStatus);
+        return ResponseEntity.status(responseStatusEnum.getHttpCode()).body(responseObject);
+    }
+
+    public ResponseEntity<Object> failBusiness(ResponseStatusCode responseStatusEnum, Object data) {
         ResponseNoBody responseObject = new ResponseNoBody();
         ResponseStatus responseStatus = new ResponseStatus(responseStatusEnum);
         responseObject.setStatus(responseStatus);
