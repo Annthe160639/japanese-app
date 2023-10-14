@@ -1,0 +1,42 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+'use case: Hiển thị danh sách Kanji
+
+actor User
+
+participant KanjiActivity as Activity
+participant Retrofit
+participant KanjiController as Controller
+participant KanjiService as Service
+participant KanjiRepository as Repository
+
+database Database
+
+activate User
+
+autonumber
+
+'Request
+User -> Activity: Hiển thị danh sách Kanji
+activate Activity
+Activity -> Retrofit: Gửi POST api/kanji/get-all
+activate Retrofit
+Retrofit -> Controller: HTTP POST api/kanji/get-all
+activate Controller
+Controller -> Service: Gọi getListKanji()
+activate Service
+Service -> Repository: Gọi getListKanji()
+activate Repository
+Repository -> Database: Lấy dữ liệu
+activate Database
+
+'Response
+Repository <-- Database--: Trả về List<Kanji>
+Service <-- Repository--: Trả về dữ liệu
+Controller <-- Service--: Trả về dữ liệu
+Retrofit <-- Controller--: Trả về dữ liệu
+Activity <-- Retrofit--: Trả về dữ liệu
+User <-- Activity--: Trả về danh sách Kanji
+
+@enduml
