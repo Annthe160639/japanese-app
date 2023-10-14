@@ -16,11 +16,19 @@ database Database
 activate User
 
 autonumber
-User -> Login++: Muốn login
-Login -> Login: Validate
+User -> Login: Muốn login
+activate Login
+Login -> Login: Validate input
+activate Login
+deactivate Login
+
 Login -> Retrofit: Gửi POST api/login
 activate Retrofit
 Retrofit -> AuthController++: HTTP POST api/login
+
+AuthController -> AuthController: Validate input
+activate AuthController
+deactivate AuthController
 AuthController -> AuthService++: Gọi login()
 AuthService -> AccountRepository++: Gọi findAccountByUsernameAndPassword()
 AccountRepository -> Database++: Lấy dữ liệu
@@ -32,12 +40,13 @@ AuthController --> Retrofit--: Trả về dữ liệu
 
 
 alt Đăng nhập thành công
-    Retrofit --> Login--: Trả về dữ liệu
+    Retrofit --> Login: Trả về dữ liệu
     Login --> User: Trả về kết quả login thành công
-    deactivate Retrofit
+
 else Đăng nhập thất bại
-    Retrofit --> Login--: Trả về dữ liệu
-    Login --> User--: Trả về kết quả login thất bại
+    Retrofit --> Login: Trả về dữ liệu
     deactivate Retrofit
-end
+    Login --> User: Trả về kết quả login thất bại
+    deactivate Login
+    end
 @enduml
