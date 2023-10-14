@@ -1,0 +1,43 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+'use case: đăng nhập
+
+actor User
+
+participant LoginActivity as Login
+participant Retrofit
+participant AuthController
+participant AuthService
+participant AccountRepository
+
+database Database
+
+activate User
+
+autonumber
+User -> Login++: Muốn login
+Login -> Login: Validate
+Login -> Retrofit: Gửi POST api/login
+activate Retrofit
+Retrofit -> AuthController++: HTTP POST api/login
+AuthController -> AuthService++: Gọi login()
+AuthService -> AccountRepository++: Gọi findAccountByUsernameAndPassword()
+AccountRepository -> Database++: Lấy dữ liệu
+
+Database --> AccountRepository--: Trả về Account
+AccountRepository --> AuthService--: Trả về dữ liệu
+AuthService --> AuthController--: Trả về dữ liệu
+AuthController --> Retrofit--: Trả về dữ liệu
+
+
+alt Đăng nhập thành công
+    Retrofit --> Login--: Trả về dữ liệu
+    Login --> User: Trả về kết quả login thành công
+    deactivate Retrofit
+else Đăng nhập thất bại
+    Retrofit --> Login--: Trả về dữ liệu
+    Login --> User--: Trả về kết quả login thất bại
+    deactivate Retrofit
+end
+@enduml
