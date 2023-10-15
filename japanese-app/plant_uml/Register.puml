@@ -1,0 +1,45 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+actor User
+participant RegisterActivity as Register
+participant Retrofit
+participant AuthController
+participant AuthService
+participant AccountRepository
+
+database  Database
+
+activate User
+
+User -> Register: user register new account
+activate Register
+
+
+Register -> Retrofit: Gửi POST api/register
+activate Retrofit
+Retrofit -> AuthController++: HTTP POST api/register
+AuthController -> AuthService++: Gọi registerAccount()
+AuthService -> AuthService: Validate dữ liệu
+
+
+alt Đăng kí thành công
+AuthService -> AccountRepository++: Gọi registerAccount()
+AccountRepository -> Database++: Lưu tài khoản mới
+Database --> AccountRepository--: Trả về dữ liệu
+AccountRepository --> AuthService--: Trả về dữ liệu
+AuthService --> AuthController: Trả về dữ liệu
+AuthController --> Retrofit: Trả về dữ liệu
+Retrofit --> Register: Hiện message "đăng kí thành công"
+Register --> User: Chuyển sang trang login để đăng nhập
+else Đăng kí thất bại
+    AuthService --> AuthController--: Dữ liệu không hợp lệ
+    AuthController --> Retrofit--: Dữ liệu không hợp lệ
+    Retrofit --> Register--: Dữ liệu không hợp lệ
+
+    Register --> User--: Hiện message "đăng kí thất bại"
+
+end
+
+@enduml
