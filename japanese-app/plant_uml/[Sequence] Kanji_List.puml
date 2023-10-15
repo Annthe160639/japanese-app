@@ -2,6 +2,7 @@
 'https://plantuml.com/sequence-diagram
 
 'use case: Hiển thị danh sách Kanji
+'author: Ngoc Mai
 
 actor User
 
@@ -18,25 +19,25 @@ activate User
 autonumber
 
 'Request
-User -> Activity: Hiển thị danh sách Kanji
+User -> Activity: Chọn bài trong học phần Hán tự
 activate Activity
-Activity -> Retrofit: Gửi POST api/kanji/get-all
+Activity -> Retrofit: Gửi GET api/kanji/get-all?lessonid=1
 activate Retrofit
-Retrofit -> Controller: HTTP POST api/kanji/get-all
+Retrofit -> Controller: HTTP GET api/kanji/get-all?lessonid=1
 activate Controller
-Controller -> Service: Gọi getListKanji()
+Controller -> Service: Gọi getListKanjiByLessonId()
 activate Service
-Service -> Repository: Gọi getListKanji()
+Service -> Repository: Gọi findKanjiByLessonId()
 activate Repository
 Repository -> Database: Lấy dữ liệu
 activate Database
 
 'Response
-Repository <-- Database--: Trả về List<Kanji>
+Repository <-- Database--: Trả về List<Kanji> theo bài
 Service <-- Repository--: Trả về dữ liệu
 Controller <-- Service--: Trả về dữ liệu
 Retrofit <-- Controller--: Trả về dữ liệu
 Activity <-- Retrofit--: Trả về dữ liệu
-User <-- Activity--: Trả về danh sách Kanji
+User <-- Activity--: Hiển thị danh sách Kanji theo bài
 
 @enduml
