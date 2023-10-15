@@ -1,0 +1,34 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+actor User
+
+participant VocabActivity as Activity
+participant Retrofit
+participant VocabController as Controller
+participant VocabService as Service
+participant VocabRepository as Repository
+
+database db
+
+activate User
+
+autonumber
+
+User -> Activity++: Hiển thị list từ vựng
+Activity -> Retrofit++: Gửi api/vocab/get-vocab
+Retrofit -> Controller++: HTTP POST api/vocab/get-vocab
+Controller -> Service++: Gọi getListVocab()
+Service -> Repository++: Gọi getListVocab()
+Repository -> db++: Lấy dữ liệu
+
+db-->Repository--: Trả dữ liệu Vocab trong database
+Repository-->Service--: Dữ liệu được trả về
+Service-->Controller--: Dữ liệu được trả về
+Controller-->Retrofit--: Dữ liệu được trả về
+Retrofit-->Activity--: Dữ liệu được trả về
+Activity-->User: Show bảng chữ cái cho người sử dụng
+
+
+
+@enduml
