@@ -16,9 +16,9 @@ database Database
 activate User
 
 autonumber
-User -> Login: Muốn login
+User -> Login: Login
 activate Login
-Login -> Login: Validate input
+Login -> Login: Validate dữ liệu
 activate Login
 deactivate Login
 
@@ -26,21 +26,24 @@ Login -> Retrofit: Gửi POST api/login
 activate Retrofit
 Retrofit -> AuthController++: HTTP POST api/login
 
-AuthController -> AuthController: Validate input
+AuthController -> AuthController: Validate dữ liệu
 activate AuthController
 deactivate AuthController
-AuthController -> AuthService++: Gọi login()
-AuthService -> AccountRepository++: Gọi findAccountByUsernameAndPassword()
+AuthController -> AuthService++: Gọi hàm login()
+AuthService -> AccountRepository++: Gọi hàm findAccountByUsernameAndPassword()
 AccountRepository -> Database++: Lấy dữ liệu
 
 Database --> AccountRepository--: Trả về Account
-AccountRepository --> AuthService--: Trả về dữ liệu
-AuthService --> AuthController--: Trả về dữ liệu
-AuthController --> Retrofit--: Trả về dữ liệu
+AccountRepository --> AuthService--: Trả về Account
+AuthService --> AuthController--: Trả về Account
+AuthController --> Retrofit--: Trả về Account
 
 
 alt Đăng nhập thành công
     Retrofit --> Login: Trả về dữ liệu
+    Login -> Login: Chuyển hướng sang màn Homepage
+    activate Login
+    deactivate Login
     Login --> User: Trả về kết quả login thành công
 
 else Đăng nhập thất bại

@@ -1,0 +1,67 @@
+@startuml
+actor User
+'participant "Homepage Activity" as Homepage
+participant "Radical Activity" as Radical
+participant "Retrofit" as Retrofit
+participant "RadicalController" as Controller
+participant "RadicalService" as Service
+participant "CategoryRepository" as CategoryRepository
+participant "RadicalRepository" as RadicalRepository
+
+database Database
+
+'
+'Use case: Xem danh sách bộ thủ
+'
+
+activate User
+
+autonumber
+User -> Radical++: Chọn xem bộ thủ
+
+'
+'Call API get list radical category
+'
+'Homepage -> Radical++: startActivity(intent)
+Radical -> Retrofit++: Gửi GET /api/radical_category
+Retrofit -> Controller++: HTTP GET /api/radical_category
+Controller -> Service++: Gọi hàm getListRadicalCategory()
+Service -> CategoryRepository++: Gọi hàm getListRadicalCategory()
+CategoryRepository -> Database++: Query dữ liệu
+Database --> CategoryRepository--: Trả về List<Category>
+CategoryRepository --> Service--: Trả về List<Category>
+Service --> Controller--: Trả về List<Category>
+Controller --> Retrofit--: Trả về List<Category>
+Retrofit --> Radical--: Trả về List<Category>
+
+'
+'Call API get list radical by categoryId
+'
+Radical -> Retrofit++: Gửi GET /api/radical?category=1
+Retrofit -> Controller++: HTTP  GET /api/radical?category=1
+Controller -> Service++: Gọi hàm getListRadicalByCategoryId()
+Service -> RadicalRepository++: Gọi hàm getRadicalByCategoryId()
+RadicalRepository -> Database++: Query dữ liệu
+Database --> RadicalRepository--: Trả về List<Radical>
+RadicalRepository --> Service--: Trả về List<Radical>
+Service --> Controller--: Trả về List<Radical>
+Controller --> Retrofit--: Trả về List<Radical>
+Retrofit --> Radical--: Trả về List<Radical>
+Radical --> User: Hiện danh sách bộ thủ
+
+opt if Người dùng chọn category khác
+    User -> Radical: Chọn category khác
+    Radical -> Retrofit++: Gửi GET /api/radical?category=2
+    Retrofit -> Controller++: HTTP GET /api/radical?category=2
+    Controller -> Service++: Gọi hàm getListRadicalByCategoryId()
+    Service -> RadicalRepository++: Gọi hàm getListRadicalByCategoryId()
+    RadicalRepository -> Database++: Query dữ liệu
+    Database --> RadicalRepository--: Trả về List<Radical>
+    RadicalRepository --> Service--: Trả về List<Radical>
+    Service --> Controller--: Trả về List<Radical>
+    Controller --> Retrofit--: Trả về List<Radical>
+    Retrofit --> Radical--: Trả về List<Radical>
+    Radical --> User--: Hiện danh sách bộ thủ
+    end
+
+@enduml
