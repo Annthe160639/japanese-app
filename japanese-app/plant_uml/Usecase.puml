@@ -11,11 +11,13 @@ rectangle "Japanese Learning App" {
   usecase "Learn Radical" as UC4
   usecase "Learn Kanji" as UC5
   usecase "Learn Vocabulary" as UC6
+  usecase "Edit Profile" as UC7
 
   UC3 ..> UC1 : <<include>>
   UC4 ..> UC1 : <<include>>
   UC5 ..> UC1 : <<include>>
   UC6 ..> UC1 : <<include>>
+  UC7 ..> UC1 : <<include>>
 
 }
 us --> UC2
@@ -23,6 +25,7 @@ us --> UC3
 us --> UC4
 us --> UC5
 us --> UC6
+us --> UC7
 
 'fd -left-> UC1
 'fd -left-> UC2
