@@ -1,7 +1,7 @@
 package com.prm.japaneseapp.service.impl;
 
+import com.prm.japaneseapp.dto.response.AccountResponseDto;
 import com.prm.japaneseapp.security.jwt.JwtUtil;
-import com.prm.japaneseapp.dto.response.AccountResponseDTO;
 import com.prm.japaneseapp.mapper.AccountMapper;
 import com.prm.japaneseapp.model.entity.AccountEntity;
 import com.prm.japaneseapp.model.request.AccountRequestDto;
@@ -23,7 +23,7 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 public class AccountServiceImpl
-        extends BaseService<AccountEntity, AccountResponseDTO, AccountRepository, AccountMapper>
+        extends BaseService<AccountEntity, AccountResponseDto, AccountRepository, AccountMapper>
         implements AccountService {
     private final AuthenticationManager authenticationManager;
 
@@ -31,7 +31,7 @@ public class AccountServiceImpl
 
     @Override
     public ResponseEntity<Object> getAllAccount() {
-        List<AccountResponseDTO> accountResponseDTOS = this.getObjRepository().findAll().stream()
+        List<AccountResponseDto> accountResponseDTOS = this.getObjRepository().findAll().stream()
                 .map(this.getObjMapper()::entityToDto)
                 .toList();
         return this.getResponseFactory().success(accountResponseDTOS, Object.class);

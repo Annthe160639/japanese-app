@@ -9,7 +9,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class AccountResponseDTO {
+public class AccountResponseDto {
 
     private Long id;
 
