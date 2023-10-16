@@ -1,4 +1,4 @@
-package com.prm.japaneseapp.util;
+package com.prm.japaneseapp.config;
 
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
