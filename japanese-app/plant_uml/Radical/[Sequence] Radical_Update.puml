@@ -1,0 +1,38 @@
+@startuml
+actor User
+'participant "Homepage Activity" as Homepage
+participant "Frontend" as Frontend
+participant "RadicalController" as Controller
+participant "RadicalService" as Service
+participant "RadicalRepository" as Repository
+
+database Database
+
+'
+'Use case: Xem danh sách bộ thủ
+'
+
+activate User
+
+autonumber
+User -> Frontend++: Nhập thông tin radical
+
+'
+'Call API get list radical category
+'
+'Homepage -> Radical++: startActivity(intent)
+Frontend -> Controller++: HTTP POST /api/update_radical
+Controller -> Controller: Validate input, check exist
+activate Controller
+deactivate Controller
+Controller -> Service++: Gọi hàm updateRadical()
+Service -> Repository++: Gọi hàm updateRadical()
+Repository -> Database++: Update data
+Database --> Repository--: Trả về Radical
+Repository --> Service--: Trả về Radical
+Service --> Controller--: Trả về Radical
+Controller --> Frontend--: Trả về Radical
+Frontend --> User--: Trả về thông báo sau khi update
+
+
+@enduml
