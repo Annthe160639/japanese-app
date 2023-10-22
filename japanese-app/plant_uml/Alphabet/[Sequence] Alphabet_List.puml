@@ -1,0 +1,33 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+actor User
+
+participant "AlphabetActivity" as Alphabet
+participant "Retrofit" as Retrofit
+participant "AlphabetController" as Controller
+participant "AlphabetService" as Service
+participant "AlphabetRepository" as Repo
+
+database Database
+activate User
+
+User -> Alphabet++: Truy cập vào bảng chữ cái
+Alphabet -> Retrofit++: Gửi api/alphabet/get-alphabet
+Retrofit -> Controller++: HTTP POST api/alphabet/get-alphabet
+Controller -> Service++: Gọi getListAlphabet()
+Service -> Repo++: Gọi getListAlphabet()
+Repo -> Database++: Truy vấn dữ liệu
+
+Database-->Repo--: Trả dữ liệu
+Repo-->Service--: Dữ liệu được trả về
+Service-->Controller--: Dữ liệu được trả về
+Controller-->Retrofit--: Dữ liệu được trả về
+Retrofit --> Alphabet--: Dữ liệu được trả về
+Alphabet --> User--: Hiển thị bảng chữ cái
+
+
+
+@enduml
