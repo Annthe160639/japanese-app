@@ -1,0 +1,39 @@
+@startuml
+actor User
+'participant "Homepage Activity" as Homepage
+participant "Frontend" as Frontend
+participant "RadicalController" as Controller
+participant "RadicalService" as Service
+participant "RadicalRepository" as Repository
+
+database Database
+
+'
+'Use case: Xem danh sách bộ thủ
+'
+
+activate User
+
+autonumber
+User -> Frontend++: Chọn radical để xoá
+
+'
+'Call API get list radical category
+'
+'Homepage -> Radical++: startActivity(intent)
+Frontend -> Controller++: HTTP POST /api/delete_radical
+Controller -> Controller: Check exist
+activate Controller
+deactivate Controller
+Controller -> Service++: Gọi hàm deleteRadicalById()
+Service -> Repository++: Gọi hàm removeRadicalById()
+Repository -> Database++: Delete data
+Database --> Repository--: Trả về kết quả
+Repository --> Service--: Trả về kết quả
+Service --> Controller--: Trả về kết quả
+Controller --> Frontend--: Trả về kết quả
+
+Frontend --> User--: Trả về thông báo sau khi xoá
+
+
+@enduml

@@ -1,0 +1,28 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+actor User
+participant "Frontend" as Frontend
+participant "VocabController" as Controller
+participant "VocabService" as Service
+participant "VocabRepository" as Repository
+database Database
+
+autonumber
+User -> Frontend++: Thêm từ vựng
+
+Frontend -> Controller++: HTTP POST /api/vocab_add
+Controller -> Controller: Validate input
+
+Controller -> Service++: Gọi hàm addVocab()
+Service -> Repository++: Gọi hàm addVocab()
+Repository -> Database++: Thêm data
+Database --> Repository--: Hiển thị lại kết quả
+Repository --> Service--: Hiển thị lại kết quả
+Service --> Controller--: Hiển thị lại kết quả
+Controller --> Frontend--: Hiển thị lại kết quả
+Frontend --> User--: Hiển thị lại kết quả
+
+@enduml
