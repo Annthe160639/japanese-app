@@ -1,0 +1,39 @@
+@startuml
+actor User
+'participant "Homepage Activity" as Homepage
+participant "Frontend" as Frontend
+participant "KanjiController" as Controller
+participant "KanjiService" as Service
+participant "KanjiRepository" as Repository
+
+database Database
+
+'
+'Use case: Xem danh sách bộ thủ
+'
+
+activate User
+
+autonumber
+User -> Frontend++: Chọn Kanji để xoá
+
+'
+'Call API get list radical category
+'
+'Homepage -> Radical++: startActivity(intent)
+Frontend -> Controller++: HTTP POST /api/delete_Kanji
+Controller -> Controller: Check exist
+activate Controller
+deactivate Controller
+Controller -> Service++: Gọi hàm deleteKanjiById()
+Service -> Repository++: Gọi hàm removeKanjiById()
+Repository -> Database++: Delete data
+Database --> Repository--: Trả về kết quả
+Repository --> Service--: Trả về kết quả
+Service --> Controller--: Trả về kết quả
+Controller --> Frontend--: Trả về kết quả
+
+Frontend --> User--: Trả về thông báo sau khi xoá
+
+
+@enduml
