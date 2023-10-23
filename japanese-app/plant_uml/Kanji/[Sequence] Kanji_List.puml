@@ -1,7 +1,7 @@
 @startuml
 'https://plantuml.com/sequence-diagram
 
-'use case: Hiển thị danh sách Kanji
+'use case: Hiển thị danh sách kanji
 'author: Ngoc Mai
 
 actor User

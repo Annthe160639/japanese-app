@@ -9,7 +9,7 @@ participant "KanjiRepository" as Repository
 database Database
 
 '
-'Use case: Xem danh sách bộ thủ
+'Use case: Xem danh sách kanji
 '
 
 activate User
