@@ -7,32 +7,37 @@ participant "KanjiService" as Service
 participant "KanjiRepository" as Repository
 
 database Database
-
-'
-'Use case: Xem danh sách kanji
-'
-
 activate User
-
 autonumber
-User -> Frontend++: Nhập thông tin kanji
 
-'
-'Call API get list radical category
-'
-'Homepage -> Radical++: startActivity(intent)
+User -> Frontend++: Nhập thông tin kanji
 Frontend -> Controller++: HTTP POST /api/add_kanji
 Controller -> Controller: Validate input
 activate Controller
 deactivate Controller
-Controller -> Service++: Gọi hàm addKanji()
-Service -> Repository++: Gọi hàm saveKanji()
-Repository -> Database++: Insert data
-Database --> Repository--: Trả về Kanji
-Repository --> Service--: Trả về Kanji
-Service --> Controller--: Trả về Kanji
-Controller --> Frontend--: Trả về Kanji
-Frontend --> User--: Trả về thông báo sau khi thêm
 
+alt Validate thất bại
+    Controller --> Frontend: Trả về thông báo lỗi
+    Frontend --> User: Hiển thị cho người dùng
 
+else Validate thành công
+    Controller -> Service++: Gọi hàm addKanji()
+    Service -> Repository++: Gọi hàm saveKanji()
+    Repository -> Database++: Insert data
+    Database --> Repository--: Trả về kết quả
+    
+    alt Insert thành công
+        Repository --> Service: Trả về Kanji
+        Service --> Controller: Trả về Kanji
+        Controller --> Frontend: Trả về Kanji
+        Frontend --> User: Trả về thông báo sau khi thêm
+        
+    else Insert thất bại
+        Repository --> Service: Trả về thông báo lỗi
+        deactivate Repository
+        Service --> Controller--: Trả về thông báo lỗi
+        Controller --> Frontend--: Trả về thông báo lỗi
+        Frontend --> User--: Trả về thông báo lỗi
+    end
+end
 @enduml
