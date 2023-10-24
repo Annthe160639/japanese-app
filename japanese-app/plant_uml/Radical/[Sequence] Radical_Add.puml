@@ -25,14 +25,21 @@ Frontend -> Controller++: HTTP POST /api/add_radical
 Controller -> Controller: Validate input
 activate Controller
 deactivate Controller
-Controller -> Service++: Gọi hàm addRadical()
-Service -> Repository++: Gọi hàm saveRadical()
-Repository -> Database++: Insert data
-Database --> Repository--: Trả về Radical
-Repository --> Service--: Trả về Radical
-Service --> Controller--: Trả về Radical
-Controller --> Frontend--: Trả về Radical
-Frontend --> User--: Trả về thông báo sau khi thêm
+
+alt Validate thất bại
+    Controller --> Frontend: Trả về thông báo lỗi
+    Frontend --> User: Hiển thị cho người dùng
+else Validate thành công
+     Controller -> Service++: Gọi hàm addRadical()
+    Service -> Repository++: Gọi hàm saveRadical()
+    Repository -> Database++: Insert data
+    Database --> Repository--: Trả về Radical
+    Repository --> Service--: Trả về Radical
+    Service --> Controller--: Trả về Radical
+    Controller --> Frontend--: Trả về Radical
+    Frontend --> User--: Trả về thông báo sau khi thêm
+end
+
 
 
 @enduml
