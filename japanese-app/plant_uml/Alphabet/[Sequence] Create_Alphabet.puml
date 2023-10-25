@@ -16,16 +16,37 @@ activate User
 User -> fe++: Nhập thông tin chữ cái
 
 fe -> Controller++: HTTP POST /api/add_alphabet
+
+Controller -> Controller: Kiểm tra dữ liệu đầu vào
+activate Controller
+deactivate Controller
+
+alt Kiểm tra thất bại
+Controller-->fe: Trạng thái lỗi
+fe-->User: Thông báo lỗi
+fe-->User: Yêu cầu người dùng nhập lại
+else Kiểm tra thành công
 Controller -> Service++: Gọi addAlphabet()
 Service -> Repository++: Gọi addAlphabet()
 Repository -> Database++: Chèn dữ liệu
+Database --> Repository--: Trả về dữ liệu
+Repository --> Service--: Trả về dữ liệu
 
-Database --> Repository--: Trả về chữ cái
-Repository --> Service--: Trả về chữ cái
-Service --> Controller--: Trả về chữ cái
-Controller --> fe--: Trả về chữ cái
-fe --> User--: Trả về thông báo sau khi thêm
+    alt Thêm thành công
 
+Service --> Controller: Trả về chữ cái
+Controller --> fe: Trả về chữ cái
+fe --> User: Trả về thông báo sau khi thêm
+
+    else Thêm thất bại
+
+Service --> Controller--: Trả về null
+Controller --> fe--: Trạng thái thêm thất bại
+fe --> User--: Thông báo lỗi
+
+end
+
+end
 
 
 @enduml

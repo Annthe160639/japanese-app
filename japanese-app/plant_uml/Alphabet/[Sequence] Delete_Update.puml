@@ -13,17 +13,17 @@ participant "AlphabetRepository" as Repository
 database Database
 activate User
 
-User -> fe++: Nhập thông tin chữ cái
+User -> fe++: Nhấn vào chữ cái muốn xóa
 
 fe -> Controller++: HTTP POST /api/delete_alphabet
 Controller -> Service++: Gọi deleteAlphabet()
 Service -> Repository++: Gọi deleteAlphabet()
 Repository -> Database++: Xóa dữ liệu
 
-Database --> Repository--: Trả về chữ cái
-Repository --> Service--: Trả về chữ cái
-Service --> Controller--: Trả về chữ cái
-Controller --> fe--: Trả về chữ cái
+Database --> Repository--: Trả về kết quả
+Repository --> Service--: Trả về kết quả
+Service --> Controller--: Trả về kết quả
+Controller --> fe--: Trả về kết quả
 fe --> User--: Trả về thông báo sau khi xóa
 
 

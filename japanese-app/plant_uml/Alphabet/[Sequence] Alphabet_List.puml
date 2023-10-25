@@ -13,21 +13,29 @@ participant "AlphabetRepository" as Repo
 
 database Database
 activate User
-
+alt Thành công
 User -> Alphabet++: Truy cập vào bảng chữ cái
 Alphabet -> Retrofit++: Gửi api/alphabet/get-alphabet
 Retrofit -> Controller++: HTTP POST api/alphabet/get-alphabet
 Controller -> Service++: Gọi getListAlphabet()
 Service -> Repo++: Gọi getListAlphabet()
 Repo -> Database++: Truy vấn dữ liệu
-
 Database-->Repo--: Trả dữ liệu
-Repo-->Service--: Dữ liệu được trả về
-Service-->Controller--: Dữ liệu được trả về
-Controller-->Retrofit--: Dữ liệu được trả về
-Retrofit --> Alphabet--: Dữ liệu được trả về
-Alphabet --> User--: Hiển thị bảng chữ cái
+Repo-->Service--: Trả dữ liệu
+alt Thành công
 
+Service-->Controller: Trả về danh sách bảng chữ cái
+Controller-->Retrofit: Trả về danh sách bảng chữ cái
+Retrofit --> Alphabet: Trả về danh sách bảng chữ cái
+Alphabet --> User: Hiển thị bảng chữ cái
+
+else Thất bại
+
+Service-->Controller--: Trả về null
+Controller-->Retrofit--: Trả về null
+Retrofit --> Alphabet--: Trạng thái 404_Not found
+Alphabet --> User--: Thông báo lỗi
+end
 
 
 @enduml
