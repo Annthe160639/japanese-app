@@ -15,14 +15,29 @@ User -> Frontend++: Thêm từ vựng
 
 Frontend -> Controller++: HTTP POST /api/vocab_add
 Controller -> Controller: Validate input
+alt Validate thất bại
+    Controller --> Frontend: Trả về thông báo lỗi
+    Frontend --> User: Hiển thị cho người dùng
 
-Controller -> Service++: Gọi hàm addVocab()
-Service -> Repository++: Gọi hàm addVocab()
-Repository -> Database++: Thêm data
-Database --> Repository--: Hiển thị lại kết quả
-Repository --> Service--: Hiển thị lại kết quả
-Service --> Controller--: Hiển thị lại kết quả
-Controller --> Frontend--: Hiển thị lại kết quả
-Frontend --> User--: Hiển thị lại kết quả
+else Validate thành công
+    Controller -> Service++: Gọi hàm addVocab()
+    Service -> Repository++: Gọi hàm saveVocab()
+    Repository -> Database++: Insert data
+    Database --> Repository--: Trả về kết quả
+
+    alt Insert thành công
+        Repository --> Service: Trả về Vocab
+        Service --> Controller: Trả về Vocab
+        Controller --> Frontend: Trả về Vocab
+        Frontend --> User: Trả về thông báo sau khi thêm
+
+    else Insert thất bại
+        Repository --> Service: Trả về thông báo lỗi
+        deactivate Repository
+        Service --> Controller--: Trả về thông báo lỗi
+        Controller --> Frontend--: Trả về thông báo lỗi
+        Frontend --> User--: Trả về thông báo lỗi
+    end
+end
 
 @enduml
