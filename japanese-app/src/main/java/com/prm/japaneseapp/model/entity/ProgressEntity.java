@@ -6,29 +6,30 @@ import lombok.*;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "radical")
+@Table(name = "progress")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class RadicalEntity {
+public class ProgressEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "number_order")
-    private Integer numberOrder;
+    @ManyToOne
+    @JoinColumn(name = "account_id")
+    private AccountEntity account;
 
     @ManyToOne
-    @JoinColumn(name = "radical_category_id")
-    private RadicalCategoryEntity radicalCategory;
+    @JoinColumn(name = "lesson_id")
+    private LessonEntity lesson;
 
-    private String radical;
+    @Column(name = "progress_kanji")
+    private Float progressKanji;
 
-    private String name;
-
-    private String meaning;
+    @Column(name = "progress_vocab")
+    private Float progressVocab;
 
     @Enumerated
     private StatusEnum status;
