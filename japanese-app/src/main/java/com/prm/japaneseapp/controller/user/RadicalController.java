@@ -13,7 +13,7 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping(path = "${userUrl}/radical")
 public class RadicalController extends BaseController<RadicalServiceImpl> {
-    @GetMapping("/list_radical_category")
+    @GetMapping("/list_category")
     public ResponseEntity<Object> getListAccount() {
         return this.getObjService().getAllRadicalCategory();
     }

@@ -25,7 +25,7 @@ public class AccountResponseDto {
 
     private String avatar;
 
-    private int role;
+    private Integer role;
 
-    private int status;
+    private Integer status;
 }
