@@ -20,7 +20,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class RadicalServiceImpl extends BaseService<RadicalEntity, RadicalDto, RadicalRepository, RadicalMapper>
         implements RadicalService {
-    private final RadicalMapper radicalMapper;
 
     private final RadicalCategoryRespository categoryRespository;
 
@@ -34,7 +33,7 @@ public class RadicalServiceImpl extends BaseService<RadicalEntity, RadicalDto, R
 
     public ResponseEntity<Object> getListRadicalByCategoryId(Integer categoryId) {
         List<RadicalDto> radicalDtos = this.getObjRepository().findAllByRadicalCategory_Id(categoryId)
-                .stream().map(radicalMapper::entityToDto).toList();
+                .stream().map(this.getObjMapper()::entityToDto).toList();
         return this.getResponseFactory().success(radicalDtos, Object.class);
     }
 }
