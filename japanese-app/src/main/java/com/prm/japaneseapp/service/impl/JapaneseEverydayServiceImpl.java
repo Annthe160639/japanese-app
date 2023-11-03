@@ -1,6 +1,6 @@
 package com.prm.japaneseapp.service.impl;
 
-import com.prm.japaneseapp.dto.response.JapaneseEverydayDto;
+import com.prm.japaneseapp.dto.JapaneseEverydayDto;
 import com.prm.japaneseapp.mapper.JapaneseEverydayMapper;
 import com.prm.japaneseapp.model.entity.JapaneseEverydayEntity;
 import com.prm.japaneseapp.repository.JapaneseEverydayRepository;

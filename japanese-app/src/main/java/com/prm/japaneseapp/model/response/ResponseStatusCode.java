@@ -9,7 +9,11 @@ import org.springframework.http.HttpStatus;
 @NoArgsConstructor
 @AllArgsConstructor
 public enum ResponseStatusCode {
-    SUCCESS(HttpStatus.OK, "Thành công");
+    SUCCESS(HttpStatus.OK, "Thành công"),
+
+    UNAUTHORIZED(HttpStatus.UNAUTHORIZED, "Đăng nhập thất bại")
+
+    ;
 
     private HttpStatus httpCode;
 

@@ -1,6 +1,6 @@
 package com.prm.japaneseapp.service.impl;
 
-import com.prm.japaneseapp.dto.response.KanjiDto;
+import com.prm.japaneseapp.dto.KanjiDto;
 import com.prm.japaneseapp.mapper.KanjiMapper;
 import com.prm.japaneseapp.model.entity.KanjiEntity;
 import com.prm.japaneseapp.repository.KanjiRepository;

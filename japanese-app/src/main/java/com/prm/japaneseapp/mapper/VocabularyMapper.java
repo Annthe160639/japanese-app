@@ -1,6 +1,6 @@
 package com.prm.japaneseapp.mapper;
 
-import com.prm.japaneseapp.dto.response.VocabularyDto;
+import com.prm.japaneseapp.dto.VocabularyDto;
 import com.prm.japaneseapp.model.entity.VocabularyEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

@@ -1,6 +1,6 @@
 package com.prm.japaneseapp.mapper;
 
-import com.prm.japaneseapp.dto.response.RadicalDto;
+import com.prm.japaneseapp.dto.RadicalDto;
 import com.prm.japaneseapp.model.entity.RadicalEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

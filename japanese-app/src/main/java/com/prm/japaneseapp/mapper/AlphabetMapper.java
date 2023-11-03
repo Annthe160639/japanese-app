@@ -1,6 +1,6 @@
 package com.prm.japaneseapp.mapper;
 
-import com.prm.japaneseapp.dto.response.AlphabetDto;
+import com.prm.japaneseapp.dto.AlphabetDto;
 import com.prm.japaneseapp.model.entity.AlphabetEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

@@ -1,4 +1,4 @@
-package com.prm.japaneseapp.dto.response;
+package com.prm.japaneseapp.dto;
 
 import lombok.*;
 
@@ -7,21 +7,19 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class KanjiDto {
+public class VocabularyDto {
 
     private Integer id;
 
     private LessonDto lesson;
 
-    private String reading;
-
-    private String writing;
+    private String kanji;
 
     private String meaning;
 
-    private String kunyomi;
+    private String name;
 
-    private String onyomi;
+    private String sound;
 
     private String example;
 

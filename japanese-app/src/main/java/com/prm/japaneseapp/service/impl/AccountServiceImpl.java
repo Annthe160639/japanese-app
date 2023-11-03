@@ -1,6 +1,7 @@
 package com.prm.japaneseapp.service.impl;
 
 import com.prm.japaneseapp.dto.response.AccountResponseDto;
+import com.prm.japaneseapp.model.response.ResponseStatusCode;
 import com.prm.japaneseapp.security.jwt.JwtUtil;
 import com.prm.japaneseapp.mapper.AccountMapper;
 import com.prm.japaneseapp.model.entity.AccountEntity;
@@ -46,7 +47,8 @@ public class AccountServiceImpl
             );
         } catch (BadCredentialsException e) {
             log.error("Sai tên người dùng hoặc mật khẩu");
-            throw new BadCredentialsException("Sai tên người dùng hoặc mật khẩu", e);
+            return this.getResponseFactory().failBusiness(ResponseStatusCode.UNAUTHORIZED,
+                    "Sai tên người dùng hoặc mật khẩu");
         }
         final String jwt = jwtUtil.generateTokenFromAuthentication(authentication);
 

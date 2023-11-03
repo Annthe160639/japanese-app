@@ -1,6 +1,6 @@
 package com.prm.japaneseapp.service.impl;
 
-import com.prm.japaneseapp.dto.response.VocabularyDto;
+import com.prm.japaneseapp.dto.VocabularyDto;
 import com.prm.japaneseapp.mapper.VocabularyMapper;
 import com.prm.japaneseapp.model.entity.VocabularyEntity;
 import com.prm.japaneseapp.repository.VocabularyRepository;

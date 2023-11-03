@@ -1,6 +1,7 @@
 package com.prm.japaneseapp.repository;
 
 import com.prm.japaneseapp.model.entity.RadicalEntity;
+import com.prm.japaneseapp.repository.custom.BaseRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
