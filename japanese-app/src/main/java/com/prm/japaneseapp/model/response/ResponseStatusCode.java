@@ -11,7 +11,13 @@ import org.springframework.http.HttpStatus;
 public enum ResponseStatusCode {
     SUCCESS(HttpStatus.OK, "Thành công"),
 
-    UNAUTHORIZED(HttpStatus.UNAUTHORIZED, "Đăng nhập thất bại")
+    UNAUTHORIZED(HttpStatus.UNAUTHORIZED, "Đăng nhập thất bại"),
+
+    REGISTER_FAILED(HttpStatus.BAD_REQUEST, "Đăng ký thất bại"),
+
+    INTERNAL_SERVER(HttpStatus.INTERNAL_SERVER_ERROR, "Lỗi server"),
+
+    VALIDATION_FAILED(HttpStatus.BAD_REQUEST, "Validate thất bại")
 
     ;
 

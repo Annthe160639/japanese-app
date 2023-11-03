@@ -9,6 +9,6 @@ public interface AccountService {
 
     ResponseEntity<Object> login(AuthRequest authRequest);
 
-    void register(AccountRequestDto account);
+    ResponseEntity<Object> register(AccountRequestDto account);
 
 }
