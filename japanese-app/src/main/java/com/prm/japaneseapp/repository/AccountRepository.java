@@ -9,4 +9,6 @@ import org.springframework.stereotype.Repository;
 public interface AccountRepository extends BaseRepository<AccountEntity, Long>,
         HibernateRepository<AccountEntity> {
     AccountEntity findAccountEntityByMail(String mail);
+
+    AccountEntity findAccountEntityById(Long id);
 }

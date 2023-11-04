@@ -6,6 +6,7 @@ import com.prm.japaneseapp.dto.response.AccountResponseDto;
 import com.prm.japaneseapp.mapper.AccountMapper;
 import com.prm.japaneseapp.model.entity.AccountEntity;
 import com.prm.japaneseapp.model.request.AccountRequestDto;
+import com.prm.japaneseapp.model.request.AccountUpdateRequestDto;
 import com.prm.japaneseapp.model.request.AuthRequest;
 import com.prm.japaneseapp.model.response.ResponseStatusCode;
 import com.prm.japaneseapp.repository.AccountRepository;
@@ -90,6 +91,34 @@ public class AccountServiceImpl
         }
         //Register failed
         log.error("Register failed");
+        return this.getResponseFactory().failBusiness(ResponseStatusCode.INTERNAL_SERVER, "Vui lòng thử lại sau");
+    }
+
+    @Override
+    @Transactional
+    public ResponseEntity<Object> update(AccountUpdateRequestDto account) {
+        AccountEntity currentAccount = this.getObjRepository().findAccountEntityById(account.getId());
+        if (currentAccount == null) {
+            log.debug("Account không tồn tại");
+            return this.getResponseFactory().failBusiness(ResponseStatusCode.NOT_FOUND,
+                    "Account không tồn tại");
+        }
+
+        currentAccount.setLastName(account.getLastName());
+        currentAccount.setFirstName(account.getFirstName());
+        currentAccount.setPassword(passwordEncoder.encode(account.getPassword()));
+        currentAccount.setPhone(account.getPhone());
+        currentAccount.setDob(account.getDob());
+        currentAccount.setAvatar(account.getAvatar());
+        AccountEntity result = this.getObjRepository().update(currentAccount);
+
+        if (result != null) {
+            //Update successful
+            log.info("Update successfully");
+            return this.getResponseFactory().success(this.getObjMapper().entityToDto(result), AccountResponseDto.class);
+        }
+        //Register failed
+        log.error("Update failed");
         return this.getResponseFactory().failBusiness(ResponseStatusCode.INTERNAL_SERVER, "Vui lòng thử lại sau");
     }
 }
