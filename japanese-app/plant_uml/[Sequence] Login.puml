@@ -5,7 +5,7 @@
 
 actor User
 
-participant LoginActivity as Login
+participant SignOutActivity as SignOut
 participant Retrofit
 participant AuthController
 participant AuthService
@@ -16,40 +16,20 @@ database Database
 activate User
 
 autonumber
-User -> Login: Login
-activate Login
-Login -> Login: Validate dữ liệu
-activate Login
-deactivate Login
-
-Login -> Retrofit: Gửi POST api/login
-activate Retrofit
+User -> SignOut++: Click on sign out
+SignOut -> Retrofit++: Send POST api/sign out
 Retrofit -> AuthController++: HTTP POST api/login
+AuthController -> AuthService++: Call signout()
+AuthService -> AccountRepository++: Call signout()
+AccountRepository -> Database++:
 
-AuthController -> AuthController: Validate dữ liệu
-activate AuthController
-deactivate AuthController
-AuthController -> AuthService++: Gọi hàm login()
-AuthService -> AccountRepository++: Gọi hàm findAccountByUsernameAndPassword()
-AccountRepository -> Database++: Lấy dữ liệu
-
-Database --> AccountRepository--: Trả về Account
-AccountRepository --> AuthService--: Trả về Account
-AuthService --> AuthController--: Trả về Account
-AuthController --> Retrofit--: Trả về Account
+Database --> AccountRepository--: Return result
+AccountRepository --> AuthService--: Return result
+AuthService --> AuthController--: Return result
+AuthController --> Retrofit--: Return result
+Retrofit-->SignOut--: Return result
+SignOut-->User:Go to login
 
 
-alt Đăng nhập thành công
-    Retrofit --> Login: Trả về dữ liệu
-    Login -> Login: Chuyển hướng sang màn Homepage
-    activate Login
-    deactivate Login
-    Login --> User: Trả về kết quả login thành công
 
-else Đăng nhập thất bại
-    Retrofit --> Login: Trả về dữ liệu
-    deactivate Retrofit
-    Login --> User: Trả về kết quả login thất bại
-    deactivate Login
-    end
 @enduml

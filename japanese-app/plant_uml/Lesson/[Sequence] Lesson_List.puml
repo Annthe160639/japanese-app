@@ -1,0 +1,41 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+actor User
+
+participant "LessonActivity" as Lesson
+participant "Retrofit" as Retrofit
+participant "LessonController" as Controller
+participant "LessonService" as Service
+participant "LessonRepository" as Repo
+
+database Database
+activate User
+alt Success
+User -> Lesson++: Click on lesson
+Lesson -> Retrofit++: Send api/lesson/get-lesson
+Retrofit -> Controller++: HTTP POST api/lesson/get-lesson
+Controller -> Service++: Call getListLesson()
+Service -> Repo++: Call getListLesson()
+Repo -> Database++: Query data
+Database-->Repo--: Return data
+Repo-->Service--: Return data
+alt Success
+
+Service-->Controller: Return list lesson
+Controller-->Retrofit: Return list lesson
+Retrofit --> Lesson: Return list lesson
+Lesson --> User: Show lesson
+
+else Fail
+
+Service-->Controller--: Return null
+Controller-->Retrofit--: Return null
+Retrofit --> Lesson--: Return status 404_Not found
+Lesson --> User--: Error message
+end
+
+
+@enduml

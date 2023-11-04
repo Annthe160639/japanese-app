@@ -5,10 +5,10 @@ autonumber
 
 actor User
 
-participant "Update Alphabet frontend" as fe
-participant "AlphabetController" as Controller
-participant "AlphabetService" as Service
-participant "AlphabetRepository" as Repository
+participant "Update Lesson frontend" as fe
+participant "LessonController" as Controller
+participant "LessonService" as Service
+participant "LessonRepository" as Repository
 
 database Database
 activate User
@@ -26,16 +26,16 @@ Controller-->fe: Error status
 fe-->User: Error message
 fe-->User: Request user re-enter
 else Validate success
-Controller -> Service++: Call updateAlphabet()
-Service -> Repository++: Call updateAlphabet()
+Controller -> Service++: Call updateLesson()
+Service -> Repository++: Call updateLesson()
 Repository -> Database++: Update data
 Database --> Repository--: Return data
 Repository --> Service--: Return data
 
     alt Update success
 
-Service --> Controller: Return alphabet
-Controller --> fe: Return alphabet
+Service --> Controller: Return lesson
+Controller --> fe: Return lesson
 fe --> User: Return message
 
     else Update fail

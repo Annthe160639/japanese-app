@@ -5,19 +5,19 @@ autonumber
 
 actor User
 
-participant "Create Alphabet frontend" as fe
-participant "AlphabetController" as Controller
-participant "AlphabetService" as Service
-participant "AlphabetRepository" as Repository
+participant "Create Lesson frontend" as fe
+participant "LessonController" as Controller
+participant "LessonService" as Service
+participant "LessonRepository" as Repository
 
 database Database
 activate User
 
 User -> fe++: Click on the letter you want to delete
 
-fe -> Controller++: HTTP POST /api/delete_alphabet
-Controller -> Service++: Call deleteAlphabet()
-Service -> Repository++: Call deleteAlphabet()
+fe -> Controller++: HTTP POST /api/delete_lesson
+Controller -> Service++: Call deleteLesson()
+Service -> Repository++: Call deleteLesson()
 Repository -> Database++: Delete data
 
 Database --> Repository--: Return result

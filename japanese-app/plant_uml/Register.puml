@@ -17,28 +17,28 @@ User -> Register: user register new account
 activate Register
 
 
-Register -> Retrofit: Gửi POST api/register
+Register -> Retrofit: Send POST api/register
 activate Retrofit
 Retrofit -> AuthController++: HTTP POST api/register
-AuthController -> AuthService++: Gọi registerAccount()
-AuthService -> AuthService: Validate dữ liệu
+AuthController -> AuthService++: Call registerAccount()
+AuthService -> AuthService: Validate data
 
 
-alt Đăng kí thành công
-AuthService -> AccountRepository++: Gọi registerAccount()
-AccountRepository -> Database++: Lưu tài khoản mới
-Database --> AccountRepository--: Trả về dữ liệu
-AccountRepository --> AuthService--: Trả về dữ liệu
-AuthService --> AuthController: Trả về dữ liệu
-AuthController --> Retrofit: Trả về dữ liệu
-Retrofit --> Register: Hiện message "đăng kí thành công"
-Register --> User: Chuyển sang trang login để đăng nhập
-else Đăng kí thất bại
-    AuthService --> AuthController--: Dữ liệu không hợp lệ
-    AuthController --> Retrofit--: Dữ liệu không hợp lệ
-    Retrofit --> Register--: Dữ liệu không hợp lệ
+alt Login sucessful
+AuthService -> AccountRepository++: Call registerAccount()
+AccountRepository -> Database++: Save new account
+Database --> AccountRepository--:  Return data
+AccountRepository --> AuthService--: Return data
+AuthService --> AuthController: Return data
+AuthController --> Retrofit: Return data
+Retrofit --> Register: Show message "login sucessful"
+Register --> User: Switch to the login page to log in
+else Login sucessful
+    AuthService --> AuthController--: Invalid data
+    AuthController --> Retrofit--: Invalid data
+    Retrofit --> Register--: Invalid data
 
-    Register --> User--: Hiện message "đăng kí thất bại"
+    Register --> User--: Show message "login fail"
 
 end
 

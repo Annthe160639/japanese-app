@@ -1,0 +1,41 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+actor User
+
+participant "ProgressActivity" as Progress
+participant "Retrofit" as Retrofit
+participant "ProgressController" as Controller
+participant "ProgressService" as Service
+participant "ProgressRepository" as Repo
+
+database Database
+activate User
+alt Success
+User -> Progress++: Click on progress
+Progress -> Retrofit++: Send api/progress/get-progress
+Retrofit -> Controller++: HTTP POST api/progress/get-progress
+Controller -> Service++: Call getProgress()
+Service -> Repo++: Call getProgress()
+Repo -> Database++: Query data
+Database-->Repo--: Return data
+Repo-->Service--: Return data
+alt Success
+
+Service-->Controller: Return progress
+Controller-->Retrofit: Return progress
+Retrofit --> Progress: Return progress
+Progress --> User: Show progress
+
+else Fail
+
+Service-->Controller--: Return null
+Controller-->Retrofit--: Return null
+Retrofit --> Progress--: Return status 404_Not found
+Progress --> User--: Error message
+end
+
+
+@enduml

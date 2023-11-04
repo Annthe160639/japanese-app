@@ -1,0 +1,41 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+actor User
+
+participant "JapaneseEverydayActivity" as JapaneseEveryday
+participant "Retrofit" as Retrofit
+participant "JapaneseEverydayController" as Controller
+participant "JapaneseEverydayService" as Service
+participant "JapaneseEverydayRepository" as Repo
+
+database Database
+activate User
+alt Success
+User -> JapaneseEveryday++: Click on japanese eveday
+JapaneseEveryday -> Retrofit++: Send api/japaneseEveday/get-japaneseEveday
+Retrofit -> Controller++: HTTP POST api/japaneseEveday/get-japaneseEveday
+Controller -> Service++: Call getListJapaneseEveday()
+Service -> Repo++: Call getListAlphabetJapaneseEveday()
+Repo -> Database++: Query data
+Database-->Repo--: Return data
+Repo-->Service--: Return data
+alt Success
+
+Service-->Controller: Return list japanese eveday
+Controller-->Retrofit: Return list japanese eveday
+Retrofit --> JapaneseEveryday: Return list japanese eveday
+JapaneseEveryday --> User: Show japanese eveday
+
+else Fail
+
+Service-->Controller--: Return null
+Controller-->Retrofit--: Return null
+Retrofit --> JapaneseEveryday--: Return status 404_Not found
+JapaneseEveryday --> User--: Error message
+end
+
+
+@enduml

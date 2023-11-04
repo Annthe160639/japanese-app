@@ -5,15 +5,15 @@ autonumber
 
 actor User
 
-participant "Create Alphabet frontend" as fe
-participant "AlphabetController" as Controller
-participant "AlphabetService" as Service
-participant "AlphabetRepository" as Repository
+participant "Create Lesson frontend" as fe
+participant "LessonController" as Controller
+participant "LessonService" as Service
+participant "LessonRepository" as Repository
 
 database Database
 activate User
 
-User -> fe++: Enter letter information
+User -> fe++: Enter  information
 
 fe -> Controller++: HTTP POST /api/add_alphabet
 
@@ -26,8 +26,8 @@ Controller-->fe: Error status
 fe-->User: Error message
 fe-->User: Request the user to re-enter
 else Validate sucess
-Controller -> Service++: Call addAlphabet()
-Service -> Repository++: Call addAlphabet()
+Controller -> Service++: Call addLesson()
+Service -> Repository++: Call addLesson()
 Repository -> Database++: Insert data
 Database --> Repository--: Return data
 Repository --> Service--: Return data
@@ -35,7 +35,7 @@ Repository --> Service--: Return data
     alt Create sucess
 
 Service --> Controller: Return alphabet
-Controller --> fe: Return Alphabet
+Controller --> fe: Return Lesson
 fe --> User: Return sucess message
 
     else Create fail
