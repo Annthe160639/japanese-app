@@ -58,7 +58,6 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     }
 
     public Optional<Authentication> createAuthentication(String token) {
-
         Jws<Claims> jwsClaims = validateToken(token);
         if (jwsClaims == null) {
             log.info("null jwsClaims");

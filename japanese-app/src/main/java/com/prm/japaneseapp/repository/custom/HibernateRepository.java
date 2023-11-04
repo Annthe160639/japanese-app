@@ -1,0 +1,74 @@
+package com.prm.japaneseapp.repository.custom;
+
+import java.util.List;
+
+/**
+ * Why we shouldn't use the default save method of JpaRepository
+ * https://vladmihalcea.com/best-spring-data-jparepository/
+ */
+
+public interface HibernateRepository<T> {
+
+    /**
+     * @deprecated We dont need this Method  ...
+     * but I have already used it
+     */
+//    @Deprecated
+//    List<T> findAll();
+
+    /**
+     * @deprecated We dont need this Method  ...
+     */
+    @Deprecated
+    <S extends T> S save(S entity);
+
+    /**
+     * @deprecated We dont need this Method  ...
+     */
+    @Deprecated
+    <S extends T> List<S> saveAll(Iterable<S> entities);
+
+    /**
+     * @deprecated We dont need this Method  ...
+     */
+    @Deprecated
+    <S extends T> S saveAndFlush(S entity);
+
+    /**
+     * @deprecated We dont need this Method  ...
+     */
+    @Deprecated
+    <S extends T> List<S> saveAllAndFlush(Iterable<S> entities);
+
+    //Persist methods are meant to save newly created entities
+
+    <S extends T> S persist(S entity);
+
+    <S extends T> S persistAndFlush(S entity);
+
+    <S extends T> List<S> persistAll(Iterable<S> entities);
+
+    <S extends T> List<S> persistAllAndFlush(Iterable<S> entities);
+
+    //Merge methods are meant to propagate detached entity state changes
+    //if they are really needed
+
+    <S extends T> S merge(S entity);
+
+    <S extends T> S mergeAndFlush(S entity);
+
+    <S extends T> List<S> mergeAll(Iterable<S> entities);
+
+    <S extends T> List<S> mergeAllAndFlush(Iterable<S> entities);
+
+    //Update methods are meant to force the detached entity state changes
+
+    <S extends T> S update(S entity);
+
+    <S extends T> S updateAndFlush(S entity);
+
+    <S extends T> List<S> updateAll(Iterable<S> entities);
+
+    <S extends T> List<S> updateAllAndFlush(Iterable<S> entities);
+
+}

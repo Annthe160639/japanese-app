@@ -9,7 +9,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class AccountResponseDTO {
+public class AccountResponseDto {
 
     private Long id;
 
@@ -25,7 +25,7 @@ public class AccountResponseDTO {
 
     private String avatar;
 
-    private int role;
+    private Integer role;
 
-    private int status;
+    private Integer status;
 }

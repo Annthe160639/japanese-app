@@ -12,18 +12,20 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(path = "${apiUrl}")
 public class AuthController extends BaseController<AccountServiceImpl> {
 
     @PostMapping("/public/login")
-    public ResponseEntity<Object> login(@RequestBody AuthRequest authRequest) {
+    public ResponseEntity<Object> login(@Valid @RequestBody AuthRequest authRequest) {
         return this.getObjService().login(authRequest);
     }
 
     @PostMapping("/public/register")
-    public void register(@RequestBody AccountRequestDto user) {
-        this.getObjService().register(user);
+    public ResponseEntity<Object> register(@Valid @RequestBody AccountRequestDto user) {
+        return this.getObjService().register(user);
     }
 }
