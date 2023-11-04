@@ -15,7 +15,7 @@ database Database
 activate User
 
 autonumber
-User -> Frontend++: Nhập thông tin radical
+User -> Frontend++: Enter radical information
 
 '
 'Call API get list radical category
@@ -25,14 +25,14 @@ Frontend -> Controller++: HTTP POST /api/update_radical
 Controller -> Controller: Validate input, check exist
 activate Controller
 deactivate Controller
-Controller -> Service++: Gọi hàm updateRadical()
-Service -> Repository++: Gọi hàm updateRadical()
+Controller -> Service++: Call method updateRadical()
+Service -> Repository++: Call method updateRadical()
 Repository -> Database++: Update data
-Database --> Repository--: Trả về Radical
-Repository --> Service--: Trả về Radical
-Service --> Controller--: Trả về Radical
-Controller --> Frontend--: Trả về Radical
-Frontend --> User--: Trả về thông báo sau khi update
+Database --> Repository--: Return Radical
+Repository --> Service--: Return Radical
+Service --> Controller--: Return Radical
+Controller --> Frontend--: Return Radical
+Frontend --> User--: Show message after update
 
 
 @enduml

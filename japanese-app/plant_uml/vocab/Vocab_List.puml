@@ -15,19 +15,19 @@ activate User
 
 autonumber
 
-User -> Activity++: Hiển thị list từ vựng
-Activity -> Retrofit++: Gửi api/vocab/get-vocab
+User -> Activity++: Click on vocab
+Activity -> Retrofit++: Send api/vocab/get-vocab
 Retrofit -> Controller++: HTTP POST api/vocab/get-vocab
-Controller -> Service++: Gọi getListVocab()
-Service -> Repository++: Gọi getListVocab()
-Repository -> db++: Lấy dữ liệu
+Controller -> Service++: Call getListVocab()
+Service -> Repository++: Call getListVocab()
+Repository -> db++: Get data
 
 db-->Repository--: Trả dữ liệu Vocab trong database
 Repository-->Service--: Dữ liệu được trả về
 Service-->Controller--: Dữ liệu được trả về
 Controller-->Retrofit--: Dữ liệu được trả về
-Retrofit-->Activity--: Dữ liệu được trả về
-Activity-->User: Show bảng chữ cái cho người sử dụng
+Retrofit-->Activity--: Ret
+Activity-->User: Show vocab
 
 
 

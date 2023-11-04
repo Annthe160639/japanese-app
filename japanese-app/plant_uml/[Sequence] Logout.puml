@@ -1,41 +1,35 @@
 @startuml
 'https://plantuml.com/sequence-diagram
 
-autonumber
+'use case: đăng nhập
 
 actor User
 
-participant "AlphabetActivity" as Alphabet
-participant "Retrofit" as Retrofit
-participant "AlphabetController" as Controller
-participant "AlphabetService" as Service
-participant "AlphabetRepository" as Repo
+participant SignOutActivity as SignOut
+participant Retrofit
+participant AuthController
+participant AuthService
+participant AccountRepository
 
 database Database
+
 activate User
-alt Success
-User -> Alphabet++: Click on alphabet
-Alphabet -> Retrofit++: Send api/alphabet/get-alphabet
-Retrofit -> Controller++: HTTP POST api/alphabet/get-alphabet
-Controller -> Service++: Call getListAlphabet()
-Service -> Repo++: Call getListAlphabet()
-Repo -> Database++: Query data
-Database-->Repo--: Return data
-Repo-->Service--: Return data
-alt Success
 
-Service-->Controller: Return list alphabet
-Controller-->Retrofit: Return list alphabet
-Retrofit --> Alphabet: Return list alphabet
-Alphabet --> User: Show alphabet
+autonumber
+User -> SignOut++: Click on sign out
+SignOut -> Retrofit++: Send POST api/sign out
+Retrofit -> AuthController++: HTTP POST api/login
+AuthController -> AuthService++: Call signout()
+AuthService -> AccountRepository++: Call signout()
+AccountRepository -> Database++:
 
-else Fail
+Database --> AccountRepository--: Return result
+AccountRepository --> AuthService--: Return result
+AuthService --> AuthController--: Return result
+AuthController --> Retrofit--: Return result
+Retrofit-->SignOut--: Return result
+SignOut-->User:Go to login
 
-Service-->Controller--: Return null
-Controller-->Retrofit--: Return null
-Retrofit --> Alphabet--: Return status 404_Not found
-Alphabet --> User--: Error message
-end
 
 
 @enduml

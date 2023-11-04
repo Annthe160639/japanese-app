@@ -10,33 +10,33 @@ database Database
 activate User
 autonumber
 
-User -> Frontend++: Nhập thông tin radical
+User -> Frontend++: Enter radical information
 Frontend -> Controller++: HTTP POST /api/add_radical
 Controller -> Controller: Validate input
 activate Controller
 deactivate Controller
 
-alt Validate thất bại
-    Controller --> Frontend: Trả về thông báo lỗi
-    Frontend --> User: Hiển thị cho người dùng
+alt Validate fail
+    Controller --> Frontend: Error message
+    Frontend --> User: Request the user to re-enter
 
-else Validate thành công
-    Controller -> Service++: Gọi hàm addRadical()
-    Service -> Repository++: Gọi hàm saveRadical()
+else Validate sucess
+    Controller -> Service++: Call method addRadical()
+    Service -> Repository++: Call method saveRadical()
     Repository -> Database++: Insert data
-    Database --> Repository--: Trả về kết quả
-    alt Insert thành công
-        Repository --> Service: Trả về Radical
-        Service --> Controller: Trả về Radical
-        Controller --> Frontend: Trả về Radical
-        Frontend --> User: Trả về thông báo sau khi thêm
+    Database --> Repository--: Return data
+    alt Insert sucess
+        Repository --> Service: Return Radical
+        Service --> Controller: Return Radical
+        Controller --> Frontend: Return Radical
+        Frontend --> User: Return sucess message
 
-    else Insert thất bại
-        Repository --> Service: Trả về thông báo lỗi
+    else Insert fail
+        Repository --> Service: Return error message
         deactivate Repository
-        Service --> Controller--: Trả về thông báo lỗi
-        Controller --> Frontend--: Trả về thông báo lỗi
-        Frontend --> User--: Trả về thông báo lỗi
+        Service --> Controller--: Return error message
+        Controller --> Frontend--: Return error message
+        Frontend --> User--: Return error message
 
     end
 
