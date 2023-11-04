@@ -1,6 +1,6 @@
 package com.prm.japaneseapp.service.impl;
 
-import com.prm.japaneseapp.dto.response.LessonDto;
+import com.prm.japaneseapp.dto.LessonDto;
 import com.prm.japaneseapp.mapper.LessonMapper;
 import com.prm.japaneseapp.model.entity.LessonEntity;
 import com.prm.japaneseapp.repository.LessonRepository;

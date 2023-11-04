@@ -1,6 +1,6 @@
 package com.prm.japaneseapp.mapper;
 
-import com.prm.japaneseapp.dto.response.KanjiDto;
+import com.prm.japaneseapp.dto.KanjiDto;
 import com.prm.japaneseapp.model.entity.KanjiEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

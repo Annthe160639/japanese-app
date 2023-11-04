@@ -31,9 +31,9 @@ public class ResponseFactory {
     }
 
     public ResponseEntity<Object> failBusiness(ResponseStatusCode responseStatusEnum, Object data) {
-        ResponseNoBody responseObject = new ResponseNoBody();
-        ResponseStatus responseStatus = new ResponseStatus(responseStatusEnum);
-        responseObject.setStatus(responseStatus);
+        GeneralResponse<Object> responseObject = new GeneralResponse<>();
+        responseObject.setStatus(new ResponseStatus(responseStatusEnum));
+        responseObject.setData(data);
         return ResponseEntity.status(responseStatusEnum.getHttpCode()).body(responseObject);
     }
 }

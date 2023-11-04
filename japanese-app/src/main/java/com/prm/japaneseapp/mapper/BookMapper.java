@@ -1,6 +1,6 @@
 package com.prm.japaneseapp.mapper;
 
-import com.prm.japaneseapp.dto.response.BookDto;
+import com.prm.japaneseapp.dto.BookDto;
 import com.prm.japaneseapp.model.entity.BookEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

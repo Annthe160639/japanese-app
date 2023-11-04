@@ -1,6 +1,6 @@
 package com.prm.japaneseapp.service.impl;
 
-import com.prm.japaneseapp.dto.response.AlphabetDto;
+import com.prm.japaneseapp.dto.AlphabetDto;
 import com.prm.japaneseapp.mapper.AlphabetMapper;
 import com.prm.japaneseapp.model.entity.AlphabetEntity;
 import com.prm.japaneseapp.repository.AlphabetRepository;

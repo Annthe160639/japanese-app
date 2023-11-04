@@ -1,4 +1,4 @@
-package com.prm.japaneseapp.dto.response;
+package com.prm.japaneseapp.dto;
 
 import lombok.*;
 

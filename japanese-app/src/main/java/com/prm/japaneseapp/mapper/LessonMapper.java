@@ -1,6 +1,6 @@
 package com.prm.japaneseapp.mapper;
 
-import com.prm.japaneseapp.dto.response.LessonDto;
+import com.prm.japaneseapp.dto.LessonDto;
 import com.prm.japaneseapp.model.entity.LessonEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

@@ -1,4 +1,4 @@
-package com.prm.japaneseapp.dto.response;
+package com.prm.japaneseapp.dto;
 
 import lombok.*;
 
@@ -7,10 +7,13 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class RadicalCategoryDto {
-    private Long id;
+public class BookDto {
+
+    private Integer id;
 
     private String name;
+
+    private String cover;
 
     private Integer status;
 }

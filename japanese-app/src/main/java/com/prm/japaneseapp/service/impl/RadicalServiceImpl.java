@@ -1,7 +1,7 @@
 package com.prm.japaneseapp.service.impl;
 
-import com.prm.japaneseapp.dto.response.RadicalCategoryDto;
-import com.prm.japaneseapp.dto.response.RadicalDto;
+import com.prm.japaneseapp.dto.RadicalCategoryDto;
+import com.prm.japaneseapp.dto.RadicalDto;
 import com.prm.japaneseapp.mapper.RadicalCategoryMapper;
 import com.prm.japaneseapp.mapper.RadicalMapper;
 import com.prm.japaneseapp.model.entity.RadicalEntity;

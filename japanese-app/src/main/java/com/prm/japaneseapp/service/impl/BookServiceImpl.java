@@ -1,6 +1,6 @@
 package com.prm.japaneseapp.service.impl;
 
-import com.prm.japaneseapp.dto.response.BookDto;
+import com.prm.japaneseapp.dto.BookDto;
 import com.prm.japaneseapp.mapper.BookMapper;
 import com.prm.japaneseapp.model.entity.BookEntity;
 import com.prm.japaneseapp.repository.BookRepository;
