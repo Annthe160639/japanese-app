@@ -77,10 +77,7 @@ public class AccountServiceImpl
                 .password(passwordEncoder.encode(account.getPassword()))
                 .firstName(account.getFirstName())
                 .lastName(account.getLastName())
-                .dob(account.getDob())
-                .phone(account.getPhone())
                 .role(RoleEnum.STUDENT)
-                .avatar(account.getAvatar())
                 .status(StatusEnum.ENABLE)
                 .build());
 

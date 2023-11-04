@@ -4,8 +4,6 @@ import lombok.Data;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import java.util.Date;
 
 @Data
 public class AccountRequestDto {
@@ -17,17 +15,10 @@ public class AccountRequestDto {
     @NotBlank(message = "{account.password.required}")
     private String password;
 
-    @NotBlank(message = "{account.password.required}")
+    @NotBlank(message = "{account.lastname.required}")
     private String lastName;
 
-    @NotBlank(message = "{account.password.required}")
+    @NotBlank(message = "{account.firstName.required}")
     private String firstName;
 
-    @NotBlank(message = "{account.password.required}")
-    private String phone;
-
-    @NotNull
-    private Date dob;
-
-    private String avatar;
 }
