@@ -17,9 +17,9 @@ public enum ResponseStatusCode {
 
     INTERNAL_SERVER(HttpStatus.INTERNAL_SERVER_ERROR, "Lỗi server"),
 
-    VALIDATION_FAILED(HttpStatus.BAD_REQUEST, "Validate thất bại")
+    VALIDATION_FAILED(HttpStatus.BAD_REQUEST, "Validate thất bại"),
 
-    ;
+    NOT_FOUND(HttpStatus.NOT_FOUND, "Không tìm thấy");
 
     private HttpStatus httpCode;
 
