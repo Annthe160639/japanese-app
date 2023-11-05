@@ -1,4 +1,4 @@
-package com.prm.japaneseapp.model.request;
+package com.prm.japaneseapp.dto.request;
 
 import lombok.Data;
 

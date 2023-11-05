@@ -2,7 +2,7 @@ package com.prm.japaneseapp.controller.user;
 
 
 import com.prm.japaneseapp.controller.BaseController;
-import com.prm.japaneseapp.model.request.AccountUpdateRequestDto;
+import com.prm.japaneseapp.dto.request.AccountUpdateRequestDto;
 import com.prm.japaneseapp.service.impl.AccountServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
