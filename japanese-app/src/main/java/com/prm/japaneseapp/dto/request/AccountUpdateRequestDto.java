@@ -15,8 +15,6 @@ public class AccountUpdateRequestDto {
 
     private String firstName;
 
-    private String password;
-
     private String phone;
 
     private Date dob;

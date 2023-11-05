@@ -116,7 +116,6 @@ public class AccountServiceImpl
 
         currentAccount.setLastName(account.getLastName());
         currentAccount.setFirstName(account.getFirstName());
-        currentAccount.setPassword(passwordEncoder.encode(account.getPassword()));
         currentAccount.setPhone(account.getPhone());
         currentAccount.setDob(account.getDob());
         currentAccount.setAvatar(account.getAvatar());
