@@ -1,4 +1,4 @@
-package com.prm.japaneseapp.model.request;
+package com.prm.japaneseapp.dto.request;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -8,7 +8,7 @@ import javax.validation.constraints.NotBlank;
 
 @Getter
 @Setter
-public class AuthRequest {
+public class AuthRequestDto {
 
     @Email
     private String mail;

@@ -2,12 +2,13 @@ package com.prm.japaneseapp.service.impl;
 
 import com.prm.japaneseapp.constant.RoleEnum;
 import com.prm.japaneseapp.constant.StatusEnum;
+import com.prm.japaneseapp.dto.request.AccountRequestDto;
+import com.prm.japaneseapp.dto.request.AccountUpdateRequestDto;
+import com.prm.japaneseapp.dto.request.AuthRequestDto;
 import com.prm.japaneseapp.dto.response.AccountResponseDto;
+import com.prm.japaneseapp.dto.response.LoginResponseDto;
 import com.prm.japaneseapp.mapper.AccountMapper;
 import com.prm.japaneseapp.model.entity.AccountEntity;
-import com.prm.japaneseapp.model.request.AccountRequestDto;
-import com.prm.japaneseapp.model.request.AccountUpdateRequestDto;
-import com.prm.japaneseapp.model.request.AuthRequest;
 import com.prm.japaneseapp.model.response.ResponseStatusCode;
 import com.prm.japaneseapp.repository.AccountRepository;
 import com.prm.japaneseapp.security.jwt.JwtUtil;
@@ -47,7 +48,7 @@ public class AccountServiceImpl
         return this.getResponseFactory().success(accountResponseDTOS, Object.class);
     }
 
-    public ResponseEntity<Object> login(AuthRequest authRequest) {
+    public ResponseEntity<Object> login(AuthRequestDto authRequest) {
         Authentication authentication;
         try {
             authentication = authenticationManager.authenticate(
@@ -59,9 +60,20 @@ public class AccountServiceImpl
             return this.getResponseFactory().failBusiness(ResponseStatusCode.UNAUTHORIZED,
                     "Sai tên người dùng hoặc mật khẩu");
         }
+        AccountEntity account = this.getObjRepository().findAccountEntityByMail(authRequest.getMail());
         final String jwt = jwtUtil.generateTokenFromAuthentication(authentication);
 
-        return this.getResponseFactory().success(jwt, String.class);
+        LoginResponseDto responseDto = LoginResponseDto.builder()
+                .token(jwt)
+                .id(account.getId())
+                .firstName(account.getFirstName())
+                .lastName(account.getLastName())
+                .mail(account.getMail())
+                .avatar(account.getAvatar())
+                .dob(account.getDob())
+                .build();
+
+        return this.getResponseFactory().success(responseDto, LoginResponseDto.class);
     }
 
     @Override
