@@ -71,6 +71,7 @@ public class AccountServiceImpl
                 .mail(account.getMail())
                 .avatar(account.getAvatar())
                 .dob(account.getDob())
+                .phone(account.getPhone())
                 .build();
 
         return this.getResponseFactory().success(responseDto, LoginResponseDto.class);
