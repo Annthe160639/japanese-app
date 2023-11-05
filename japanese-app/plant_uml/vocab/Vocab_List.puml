@@ -1,34 +1,41 @@
 @startuml
 'https://plantuml.com/sequence-diagram
 
-actor User
-
-participant VocabActivity as Activity
-participant Retrofit
-participant VocabController as Controller
-participant VocabService as Service
-participant VocabRepository as Repository
-
-database db
-
-activate User
-
 autonumber
 
-User -> Activity++: Click on vocab
-Activity -> Retrofit++: Send api/vocab/get-vocab
+actor User
+
+participant "VocabActivity" as Vocab
+participant "Retrofit" as Retrofit
+participant "VocabController" as Controller
+participant "VocabService" as Service
+participant "VocabRepository" as Repo
+
+database Database
+activate User
+alt Success
+User -> Vocab++: Click on vocab
+Vocab -> Retrofit++: Send api/vocab/get-vocab
 Retrofit -> Controller++: HTTP POST api/vocab/get-vocab
 Controller -> Service++: Call getListVocab()
-Service -> Repository++: Call getListVocab()
-Repository -> db++: Get data
+Service -> Repo++: Call getListAlphabetVocab()
+Repo -> Database++: Query data
+Database-->Repo--: Return data
+Repo-->Service--: Return data
+alt Success
 
-db-->Repository--: Trả dữ liệu Vocab trong database
-Repository-->Service--: Dữ liệu được trả về
-Service-->Controller--: Dữ liệu được trả về
-Controller-->Retrofit--: Dữ liệu được trả về
-Retrofit-->Activity--: Ret
-Activity-->User: Show vocab
+Service-->Controller: Return list vocab
+Controller-->Retrofit: Return list vocab
+Retrofit --> Vocab: Return list vocab
+Vocab --> User: Show list vocab
 
+else Fail
+
+Service-->Controller--: Return null
+Controller-->Retrofit--: Return null
+Retrofit --> Vocab--: Return status 404_Not found
+Vocab --> User--: Error message
+end
 
 
 @enduml

@@ -4,40 +4,49 @@
 autonumber
 
 actor User
-participant "Frontend" as Frontend
+
+participant "Create Vocab frontend" as fe
 participant "VocabController" as Controller
 participant "VocabService" as Service
 participant "VocabRepository" as Repository
+
 database Database
+activate User
 
-autonumber
-User -> Frontend++: Thêm từ vựng
+User -> fe++: Enter letter information
 
-Frontend -> Controller++: HTTP POST /api/vocab_add
-Controller -> Controller: Validate input
-alt Validate thất bại
-    Controller --> Frontend: Trả về thông báo lỗi
-    Frontend --> User: Hiển thị cho người dùng
+fe -> Controller++: HTTP POST /api/add_vocab
 
-else Validate thành công
-    Controller -> Service++: Gọi hàm addVocab()
-    Service -> Repository++: Gọi hàm saveVocab()
-    Repository -> Database++: Insert data
-    Database --> Repository--: Trả về kết quả
+Controller -> Controller: Validate input data
+activate Controller
+deactivate Controller
 
-    alt Insert thành công
-        Repository --> Service: Trả về Vocab
-        Service --> Controller: Trả về Vocab
-        Controller --> Frontend: Trả về Vocab
-        Frontend --> User: Trả về thông báo sau khi thêm
+alt Validate fail
+Controller-->fe: Error status
+fe-->User: Error message
+fe-->User: Request the user to re-enter
+else Validate sucess
+Controller -> Service++: Call addVocab()
+Service -> Repository++: Call addVocab()
+Repository -> Database++: Insert data
+Database --> Repository--: Return data
+Repository --> Service--: Return data
 
-    else Insert thất bại
-        Repository --> Service: Trả về thông báo lỗi
-        deactivate Repository
-        Service --> Controller--: Trả về thông báo lỗi
-        Controller --> Frontend--: Trả về thông báo lỗi
-        Frontend --> User--: Trả về thông báo lỗi
-    end
+    alt Create sucess
+
+Service --> Controller: Return vocab
+Controller --> fe: Return vocab
+fe --> User: Return sucess message
+
+    else Create fail
+
+Service --> Controller--: Return null
+Controller --> fe--: Status error
+fe --> User--: Error message
+
 end
+
+end
+
 
 @enduml

@@ -1,38 +1,53 @@
 @startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
 actor User
-'participant "Homepage Activity" as Homepage
-participant "Frontend" as Frontend
+
+participant "Update Kanji frontend" as fe
 participant "KanjiController" as Controller
 participant "KanjiService" as Service
 participant "KanjiRepository" as Repository
 
 database Database
-
-'
-'Use case: Xem danh sách kanji
-'
-
 activate User
 
-autonumber
-User -> Frontend++: Nhập thông tin Kanji
+User -> fe++: Click on the letter you want to update
 
-'
-'Call API get list radical category
-'
-'Homepage -> Kanji++: startActivity(intent)
-Frontend -> Controller++: HTTP POST /api/update_kanji
-Controller -> Controller: Validate input, check exist
+fe -> Controller++: HTTP POST /api/update_alphabet
+
+Controller -> Controller: Validate input data
 activate Controller
 deactivate Controller
-Controller -> Service++: Gọi hàm updateKanji()
-Service -> Repository++: Gọi hàm updateKanji()
+
+alt Validate fail
+Controller-->fe: Error status
+fe-->User: Error message
+fe-->User: Request user re-enter
+else Validate success
+Controller -> Service++: Call updateKanji()
+Service -> Repository++: Call updateKanji()
 Repository -> Database++: Update data
-Database --> Repository--: Trả về Kanji
-Repository --> Service--: Trả về Kanji
-Service --> Controller--: Trả về Kanji
-Controller --> Frontend--: Trả về Kanji
-Frontend --> User--: Trả về thông báo sau khi update
+Database --> Repository--: Return data
+Repository --> Service--: Return data
+
+    alt Update success
+
+Service --> Controller: Return kanji
+Controller --> fe: Return kanji
+fe --> User: Return message
+
+    else Update fail
+
+Service --> Controller--: Return null
+Controller --> fe--: Status update fail
+fe --> User--: Error message
+
+end
+
+end
+
 
 
 @enduml

@@ -15,7 +15,7 @@ database Database
 activate User
 
 autonumber
-User -> Frontend++: Chọn Kanji để xoá
+User -> Frontend++: Click Kanji to delete
 
 '
 'Call API get list radical category
@@ -25,15 +25,15 @@ Frontend -> Controller++: HTTP POST /api/delete_Kanji
 Controller -> Controller: Check exist
 activate Controller
 deactivate Controller
-Controller -> Service++: Gọi hàm deleteKanjiById()
-Service -> Repository++: Gọi hàm removeKanjiById()
+Controller -> Service++: Call deleteKanjiById()
+Service -> Repository++: Call removeKanjiById()
 Repository -> Database++: Delete data
-Database --> Repository--: Trả về kết quả
-Repository --> Service--: Trả về kết quả
-Service --> Controller--: Trả về kết quả
-Controller --> Frontend--: Trả về kết quả
+Database --> Repository--: Return result
+Repository --> Service--: Return result
+Service --> Controller--: Return result
+Controller --> Frontend--: Return result
 
-Frontend --> User--: Trả về thông báo sau khi xoá
+Frontend --> User--: Return result after delete
 
 
 @enduml

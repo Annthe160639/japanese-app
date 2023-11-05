@@ -19,25 +19,25 @@ activate User
 autonumber
 
 'Request
-User -> Activity: Chọn bài trong học phần Hán tự
+User -> Activity: Click on kanji
 activate Activity
-Activity -> Retrofit: Gửi GET api/kanji/get-all?lessonid=1
+Activity -> Retrofit: Send GET api/kanji/get-all?lessonid=1
 activate Retrofit
 Retrofit -> Controller: HTTP GET api/kanji/get-all?lessonid=1
 activate Controller
-Controller -> Service: Gọi getListKanjiByLessonId()
+Controller -> Service: Call getListKanjiByLessonId()
 activate Service
-Service -> Repository: Gọi findKanjiByLessonId()
+Service -> Repository: Call findKanjiByLessonId()
 activate Repository
-Repository -> Database: Lấy dữ liệu
+Repository -> Database: Query data
 activate Database
 
 'Response
-Repository <-- Database--: Trả về List<Kanji> theo bài
-Service <-- Repository--: Trả về dữ liệu
-Controller <-- Service--: Trả về dữ liệu
-Retrofit <-- Controller--: Trả về dữ liệu
-Activity <-- Retrofit--: Trả về dữ liệu
-User <-- Activity--: Hiển thị danh sách Kanji theo bài
+Repository <-- Database--: Return List<Kanji>
+Service <-- Repository--: Return data
+Controller <-- Service--: Return data
+Retrofit <-- Controller--: Return data
+Activity <-- Retrofit--: Return data
+User <-- Activity--: Show list Kanji
 
 @enduml

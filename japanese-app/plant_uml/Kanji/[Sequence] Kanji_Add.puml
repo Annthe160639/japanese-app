@@ -10,34 +10,34 @@ database Database
 activate User
 autonumber
 
-User -> Frontend++: Nhập thông tin kanji
+User -> Frontend++: Enter kanji information
 Frontend -> Controller++: HTTP POST /api/add_kanji
 Controller -> Controller: Validate input
 activate Controller
 deactivate Controller
 
-alt Validate thất bại
-    Controller --> Frontend: Trả về thông báo lỗi
-    Frontend --> User: Hiển thị cho người dùng
+alt Validate fail
+    Controller --> Frontend: Return error message
+    Frontend --> User: Require user re-enter
 
-else Validate thành công
-    Controller -> Service++: Gọi hàm addKanji()
-    Service -> Repository++: Gọi hàm saveKanji()
+else Validate success
+    Controller -> Service++: Call addKanji()
+    Service -> Repository++: Call saveKanji()
     Repository -> Database++: Insert data
-    Database --> Repository--: Trả về kết quả
+    Database --> Repository--: Return result
     
-    alt Insert thành công
-        Repository --> Service: Trả về Kanji
-        Service --> Controller: Trả về Kanji
-        Controller --> Frontend: Trả về Kanji
-        Frontend --> User: Trả về thông báo sau khi thêm
+    alt Insert success
+        Repository --> Service: Return Kanji
+        Service --> Controller: Return Kanji
+        Controller --> Frontend: Return Kanji
+        Frontend --> User: Return message success
         
-    else Insert thất bại
-        Repository --> Service: Trả về thông báo lỗi
+    else Insert fail
+        Repository --> Service: Return error message
         deactivate Repository
-        Service --> Controller--: Trả về thông báo lỗi
-        Controller --> Frontend--: Trả về thông báo lỗi
-        Frontend --> User--: Trả về thông báo lỗi
+        Service --> Controller--: Return error message
+        Controller --> Frontend--: Return error message
+        Frontend --> User--: Return error message
     end
 end
 @enduml

@@ -4,25 +4,50 @@
 autonumber
 
 actor User
-participant "Frontend" as Frontend
+
+participant "Vocab Alphabet frontend" as fe
 participant "VocabController" as Controller
 participant "VocabService" as Service
 participant "VocabRepository" as Repository
+
 database Database
+activate User
 
-autonumber
-User -> Frontend++: Chọn từ vựng
+User -> fe++: Click on the letter you want to update
 
-Frontend -> Controller++: HTTP POST /api/update_add
-Controller -> Controller: Validate input
+fe -> Controller++: HTTP POST /api/update_alphabet
 
-Controller -> Service++: Gọi hàm updateVocab()
-Service -> Repository++: Gọi hàm updateVocab()
-Repository -> Database++: sửa data
-Database --> Repository--: Hiển thị lại kết quả
-Repository --> Service--: Hiển thị lại kết quả
-Service --> Controller--: Hiển thị lại kết quả
-Controller --> Frontend--: Hiển thị lại kết quả
-Frontend --> User--: Hiển thị lại kết quả
+Controller -> Controller: Validate input data
+activate Controller
+deactivate Controller
+
+alt Validate fail
+Controller-->fe: Error status
+fe-->User: Error message
+fe-->User: Request user re-enter
+else Validate success
+Controller -> Service++: Call updateVocab()
+Service -> Repository++: Call updateVocab()
+Repository -> Database++: Update data
+Database --> Repository--: Return data
+Repository --> Service--: Return data
+
+    alt Update success
+
+Service --> Controller: Return vocab
+Controller --> fe: Return vocab
+fe --> User: Return message
+
+    else Update fail
+
+Service --> Controller--: Return null
+Controller --> fe--: Status update fail
+fe --> User--: Error message
+
+end
+
+end
+
+
 
 @enduml
