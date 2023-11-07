@@ -1,0 +1,53 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+actor User
+
+participant "Update Profile frontend" as fe
+participant "ProfileController" as Controller
+participant "ProfileService" as Service
+participant "ProfileRepository" as Repository
+
+database Database
+activate User
+
+User -> fe++: Click on the profile to update
+
+fe -> Controller++: HTTP POST /api/update_profile
+
+Controller -> Controller: Validate input data
+activate Controller
+deactivate Controller
+
+alt Validate fail
+Controller-->fe: Error status
+fe-->User: Error message
+fe-->User: Request user re-enter
+else Validate success
+Controller -> Service++: Call updateProfile()
+Service -> Repository++: Call updateProfile()
+Repository -> Database++: Update data
+Database --> Repository--: Return data
+Repository --> Service--: Return data
+
+    alt Update success
+
+Service --> Controller: Return profile
+Controller --> fe: Return profile
+fe --> User: Return message
+
+    else Update fail
+
+Service --> Controller--: Return null
+Controller --> fe--: Status update fail
+fe --> User--: Error message
+
+end
+
+end
+
+
+
+@enduml

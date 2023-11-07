@@ -1,0 +1,41 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+actor User
+
+participant "ProfileActivity" as Profile
+participant "Retrofit" as Retrofit
+participant "ProfileController" as Controller
+participant "ProfileService" as Service
+participant "ProfileRepository" as Repo
+
+database Database
+activate User
+alt Success
+User -> Profile++: Click on profile
+Profile -> Retrofit++: Send api/profile/get-profile
+Retrofit -> Controller++: HTTP POST api/profile/get-profile
+Controller -> Service++: Call getListprofile()
+Service -> Repo++: Call getListprofile()
+Repo -> Database++: Query data
+Database-->Repo--: Return data
+Repo-->Service--: Return data
+alt Success
+
+Service-->Controller: Return list profile
+Controller-->Retrofit: Return list profile
+Retrofit --> Profile: Return list profile
+Profile --> User: Show profile
+
+else Fail
+
+Service-->Controller--: Return null
+Controller-->Retrofit--: Return null
+Retrofit --> Profile--: Return status 404_Not found
+Profile --> User--: Error message
+end
+
+
+@enduml
