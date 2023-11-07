@@ -1,5 +1,6 @@
 package com.prm.japaneseapp.service.impl;
 
+import com.mysql.cj.log.Log;
 import com.prm.japaneseapp.constant.RoleEnum;
 import com.prm.japaneseapp.constant.StatusEnum;
 import com.prm.japaneseapp.dto.request.AccountRequestDto;
@@ -25,7 +26,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 @Service
 @Slf4j
@@ -48,6 +56,16 @@ public class AccountServiceImpl
         return this.getResponseFactory().success(accountResponseDTOS, Object.class);
     }
 
+    // To convert String to Date
+    public static LocalDate getDateFromString(String string, DateTimeFormatter format) {
+        // Converting the string to date
+        // in the specified format
+        LocalDate date = LocalDate.parse(string, format);
+
+        // Returning the converted date
+        return date;
+    }
+
     public ResponseEntity<Object> login(AuthRequestDto authRequest) {
         Authentication authentication;
         try {
@@ -62,6 +80,29 @@ public class AccountServiceImpl
         }
         AccountEntity account = this.getObjRepository().findAccountEntityByMail(authRequest.getMail());
         final String jwt = jwtUtil.generateTokenFromAuthentication(authentication);
+
+        //set dob using SimpleDateFormat
+//        String pattern = "yyyy-MM-dd";
+//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern, Locale.getDefault());
+//        String strDate = simpleDateFormat.format(account.getDob());
+//        Date date;
+//        try {
+//            date = simpleDateFormat.parse(strDate);
+//        } catch (ParseException e) {
+//            throw new RuntimeException(e);
+//        }
+//        account.setDob(date);
+
+        //set dob using DateTimeFormatter: https://www.geeksforgeeks.org/java-program-to-convert-string-to-date/
+        //get the dob string
+        String strDob = account.getDob().toString();
+        // Getting the format by creating an object of DateTImeFormatter class, example: 2023-10-18 00:00:00.0
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S");
+        LocalDate localDate = getDateFromString(strDob, format);
+        log.info("dob = " + localDate);
+
+        Date DOB = java.sql.Date.valueOf(localDate);
+        account.setDob(DOB);
 
         LoginResponseDto responseDto = LoginResponseDto.builder()
                 .token(jwt)
@@ -126,7 +167,7 @@ public class AccountServiceImpl
             log.info("Update successfully");
             return this.getResponseFactory().success(this.getObjMapper().entityToDto(result), AccountResponseDto.class);
         }
-        //Register failed
+        //Update failed
         log.error("Update failed");
         return this.getResponseFactory().failBusiness(ResponseStatusCode.INTERNAL_SERVER, "Vui lòng thử lại sau");
     }
