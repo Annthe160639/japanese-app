@@ -1,39 +1,41 @@
 @startuml
-actor User
-'participant "Homepage Activity" as Homepage
-participant "Frontend" as Frontend
-participant "KanjiController" as Controller
-participant "KanjiService" as Service
-participant "KanjiRepository" as Repository
-
-database Database
-
-'
-'Use case: Xem danh sách kanji
-'
-
-activate User
+'https://plantuml.com/sequence-diagram
 
 autonumber
-User -> Frontend++: Click Kanji to delete
 
-'
-'Call API get list radical category
-'
-'Homepage -> Radical++: startActivity(intent)
-Frontend -> Controller++: HTTP POST /api/delete_Kanji
-Controller -> Controller: Check exist
-activate Controller
-deactivate Controller
-Controller -> Service++: Call deleteKanjiById()
-Service -> Repository++: Call removeKanjiById()
-Repository -> Database++: Delete data
-Database --> Repository--: Return result
-Repository --> Service--: Return result
-Service --> Controller--: Return result
-Controller --> Frontend--: Return result
+actor User
 
-Frontend --> User--: Return result after delete
+participant "KanjiActivity" as Kanji
+participant "Retrofit" as Retrofit
+participant "KanjiController" as Controller
+participant "KanjiService" as Service
+participant "KanjiRepository" as Repo
 
+database Database
+activate User
+alt Success
+User -> Kanji++: Click on kanji
+Kanji -> Retrofit++: Send api/kanji/delete-kanji
+Retrofit -> Controller++: HTTP POST api/kanji/delete-kanji
+Controller -> Service++: Call deleteKanji()
+Service -> Repo++: Call deleteKanji()
+Repo -> Database++: Query data
+alt Success
+Database-->Repo: Return data
+Repo-->Service: Return data
+
+Service-->Controller: Return result
+Controller-->Retrofit: Return result
+Retrofit --> Kanji: Return result
+Kanji --> User: Delete kanji
+
+else Fail
+Database-->Repo--:Return null
+Repo-->Service--:Return null
+Service-->Controller--: Return null
+Controller-->Retrofit--: Return null
+Retrofit --> Kanji--: Return null
+Kanji --> User--: Error message
+end
 
 @enduml

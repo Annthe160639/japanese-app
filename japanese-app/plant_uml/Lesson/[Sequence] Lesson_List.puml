@@ -20,9 +20,9 @@ Retrofit -> Controller++: HTTP POST api/lesson/get-lesson
 Controller -> Service++: Call getListLesson()
 Service -> Repo++: Call getListLesson()
 Repo -> Database++: Query data
-Database-->Repo--: Return data
-Repo-->Service--: Return data
 alt Success
+Database-->Repo: Return data
+Repo-->Service: Return data
 
 Service-->Controller: Return list lesson
 Controller-->Retrofit: Return list lesson
@@ -30,7 +30,8 @@ Retrofit --> Lesson: Return list lesson
 Lesson --> User: Show lesson
 
 else Fail
-
+Database-->Repo--:Return null
+Repo-->Service--:Return null
 Service-->Controller--: Return null
 Controller-->Retrofit--: Return null
 Retrofit --> Lesson--: Return status 404_Not found

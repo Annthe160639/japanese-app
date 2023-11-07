@@ -1,43 +1,41 @@
 @startuml
 'https://plantuml.com/sequence-diagram
 
-'use case: Hiển thị danh sách kanji
-'author: Ngoc Mai
+autonumber
 
 actor User
 
-participant KanjiActivity as Activity
-participant Retrofit
-participant KanjiController as Controller
-participant KanjiService as Service
-participant KanjiRepository as Repository
+participant "KanjiActivity" as Kanji
+participant "Retrofit" as Retrofit
+participant "KanjiController" as Controller
+participant "KanjiService" as Service
+participant "KanjiRepository" as Repo
 
 database Database
-
 activate User
+alt Success
+User -> Kanji++: Click on kanji
+Kanji -> Retrofit++: Send api/kanji/get-kanji
+Retrofit -> Controller++: HTTP POST api/kanji/get-kanji
+Controller -> Service++: Call getListKanji()
+Service -> Repo++: Call getListKanji()
+Repo -> Database++: Query data
+alt Success
+Database-->Repo: Return data
+Repo-->Service: Return data
 
-autonumber
+Service-->Controller: Return list kanji
+Controller-->Retrofit: Return list kanji
+Retrofit --> Kanji: Return list kanji
+Kanji --> User: Show kanji
 
-'Request
-User -> Activity: Click on kanji
-activate Activity
-Activity -> Retrofit: Send GET api/kanji/get-all?lessonid=1
-activate Retrofit
-Retrofit -> Controller: HTTP GET api/kanji/get-all?lessonid=1
-activate Controller
-Controller -> Service: Call getListKanjiByLessonId()
-activate Service
-Service -> Repository: Call findKanjiByLessonId()
-activate Repository
-Repository -> Database: Query data
-activate Database
-
-'Response
-Repository <-- Database--: Return List<Kanji>
-Service <-- Repository--: Return data
-Controller <-- Service--: Return data
-Retrofit <-- Controller--: Return data
-Activity <-- Retrofit--: Return data
-User <-- Activity--: Show list Kanji
+else Fail
+Database-->Repo--:Return null
+Repo-->Service--:Return null
+Service-->Controller--: Return null
+Controller-->Retrofit--: Return null
+Retrofit --> Kanji--: Return status 404_Not found
+Kanji --> User--: Error message
+end
 
 @enduml

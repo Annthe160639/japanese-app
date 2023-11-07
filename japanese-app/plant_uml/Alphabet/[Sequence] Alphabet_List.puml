@@ -13,16 +13,17 @@ participant "AlphabetRepository" as Repo
 
 database Database
 activate User
-alt Success
+
 User -> Alphabet++: Click on alphabet
 Alphabet -> Retrofit++: Send api/alphabet/get-alphabet
 Retrofit -> Controller++: HTTP POST api/alphabet/get-alphabet
 Controller -> Service++: Call getListAlphabet()
 Service -> Repo++: Call getListAlphabet()
 Repo -> Database++: Query data
-Database-->Repo--: Return data
-Repo-->Service--: Return data
 alt Success
+Database-->Repo: Return data
+Repo-->Service: Return data
+
 
 Service-->Controller: Return list alphabet
 Controller-->Retrofit: Return list alphabet
@@ -31,6 +32,8 @@ Alphabet --> User: Show alphabet
 
 else Fail
 
+Database --> Repo--:Return null
+Repo-->Service--:Return null
 Service-->Controller--: Return null
 Controller-->Retrofit--: Return null
 Retrofit --> Alphabet--: Return status 404_Not found

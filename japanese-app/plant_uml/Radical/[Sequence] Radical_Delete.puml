@@ -1,39 +1,41 @@
 @startuml
-actor User
-'participant "Homepage Activity" as Homepage
-participant "Frontend" as Frontend
-participant "RadicalController" as Controller
-participant "RadicalService" as Service
-participant "RadicalRepository" as Repository
-
-database Database
-
-'
-'Use case: Xem danh sách bộ thủ
-'
-
-activate User
+'https://plantuml.com/sequence-diagram
 
 autonumber
-User -> Frontend++: Click radical to click
 
-'
-'Call API get list radical category
-'
-'Homepage -> Radical++: startActivity(intent)
-Frontend -> Controller++: HTTP POST /api/delete_radical
-Controller -> Controller: Check exist
-activate Controller
-deactivate Controller
-Controller -> Service++: Call method deleteRadicalById()
-Service -> Repository++: Call method removeRadicalById()
-Repository -> Database++: Delete data
-Database --> Repository--: Return result
-Repository --> Service--: Return result
-Service --> Controller--: Return result
-Controller --> Frontend--: Return result
+actor User
 
-Frontend --> User--: Show message after update
+participant "RadicalActivity" as Radical
+participant "Retrofit" as Retrofit
+participant "RadicalController" as Controller
+participant "RadicalService" as Service
+participant "RadicalRepository" as Repo
 
+database Database
+activate User
+alt Success
+User -> Radical++: Click on Radical
+Radical -> Retrofit++: Send api/radical/delete-radical
+Retrofit -> Controller++: HTTP POST api/radical/delete-radical
+Controller -> Service++: Call deleteRadical()
+Service -> Repo++: Call deleteRadical()
+Repo -> Database++: Query data
+alt Success
+Database-->Repo: Return data
+Repo-->Service: Return data
+
+Service-->Controller: Return result
+Controller-->Retrofit: Return result
+Retrofit --> Radical: Return result
+Radical --> User: Delete Radical
+
+else Fail
+Database-->Repo--:Return null
+Repo-->Service--:Return null
+Service-->Controller--: Return null
+Controller-->Retrofit--: Return null
+Retrofit --> Radical--: Return null
+Radical --> User--: Error message
+end
 
 @enduml

@@ -33,13 +33,14 @@ AuthController -> AuthService++: Call method login()
 AuthService -> AccountRepository++: Call method findAccountByUsernameAndPassword()
 AccountRepository -> Database++: Execute query
 
-Database --> AccountRepository--: Return Account
-AccountRepository --> AuthService--: Return Account
-AuthService --> AuthController--: Return Account
-AuthController --> Retrofit--: Return Account
-
-
 alt Đăng nhập thành công
+Database --> AccountRepository: Return Account
+AccountRepository --> AuthService: Return Account
+AuthService --> AuthController: Return Account
+AuthController --> Retrofit: Return Account
+
+
+
     Retrofit --> Login: Return data
     Login -> Login: Switch to the Homepage screen
     activate Login
@@ -47,7 +48,11 @@ alt Đăng nhập thành công
     Login --> User: Return result login success
 
 else Đăng nhập thất bại
-    Retrofit --> Login: Return data
+Database --> AccountRepository--:Return null
+AccountRepository -->AuthService--:Return null
+AuthService --> AuthController--: Return null
+AuthController --> Retrofit--: Return status 404
+    Retrofit --> Login--: Return status 404
     deactivate Retrofit
     Login --> User: Return result login fail
     deactivate Login

@@ -20,9 +20,9 @@ Retrofit -> Controller++: HTTP POST api/vocab/get-vocab
 Controller -> Service++: Call getListVocab()
 Service -> Repo++: Call getListAlphabetVocab()
 Repo -> Database++: Query data
-Database-->Repo--: Return data
-Repo-->Service--: Return data
 alt Success
+Database-->Repo: Return data
+Repo-->Service: Return data
 
 Service-->Controller: Return list vocab
 Controller-->Retrofit: Return list vocab
@@ -31,6 +31,8 @@ Vocab --> User: Show list vocab
 
 else Fail
 
+Database-->Repo--:Return data
+Repo-->Service--:Return data
 Service-->Controller--: Return null
 Controller-->Retrofit--: Return null
 Retrofit --> Vocab--: Return status 404_Not found

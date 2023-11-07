@@ -1,4 +1,4 @@
-@startuml
+90=-90@startuml
 'https://plantuml.com/sequence-diagram
 
 autonumber
@@ -13,20 +13,21 @@ participant "ProfileRepository" as Repo
 
 database Database
 activate User
+
 alt Success
 User -> Profile++: Click on profile
 Profile -> Retrofit++: Send api/profile/get-profile
 Retrofit -> Controller++: HTTP POST api/profile/get-profile
-Controller -> Service++: Call getListprofile()
-Service -> Repo++: Call getListprofile()
+Controller -> Service++: Call getProfile()
+Service -> Repo++: Call getProfile()
 Repo -> Database++: Query data
 Database-->Repo--: Return data
 Repo-->Service--: Return data
 alt Success
 
-Service-->Controller: Return list profile
-Controller-->Retrofit: Return list profile
-Retrofit --> Profile: Return list profile
+Service-->Controller: Return to profile
+Controller-->Retrofit: Return to profile
+Retrofit --> Profile: Return to profile
 Profile --> User: Show profile
 
 else Fail

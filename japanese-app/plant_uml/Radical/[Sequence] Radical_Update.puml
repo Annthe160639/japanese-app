@@ -1,38 +1,53 @@
 @startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
 actor User
-'participant "Homepage Activity" as Homepage
-participant "Frontend" as Frontend
+
+participant "Update Radical frontend" as fe
 participant "RadicalController" as Controller
 participant "RadicalService" as Service
 participant "RadicalRepository" as Repository
 
 database Database
-
-'
-'Use case: Xem danh sách bộ thủ
-'
-
 activate User
 
-autonumber
-User -> Frontend++: Enter radical information
+User -> fe++: Click on the letter you want to update
 
-'
-'Call API get list radical category
-'
-'Homepage -> Radical++: startActivity(intent)
-Frontend -> Controller++: HTTP POST /api/update_radical
-Controller -> Controller: Validate input, check exist
+fe -> Controller++: HTTP POST /api/update_radical
+
+Controller -> Controller: Validate input data
 activate Controller
 deactivate Controller
-Controller -> Service++: Call method updateRadical()
-Service -> Repository++: Call method updateRadical()
+
+alt Validate fail
+Controller-->fe: Error status
+fe-->User: Error message
+fe-->User: Request user re-enter
+else Validate success
+Controller -> Service++: Call updateRadical()
+Service -> Repository++: Call updateRadical()
 Repository -> Database++: Update data
-Database --> Repository--: Return Radical
-Repository --> Service--: Return Radical
-Service --> Controller--: Return Radical
-Controller --> Frontend--: Return Radical
-Frontend --> User--: Show message after update
+Database --> Repository--: Return data
+Repository --> Service--: Return data
+
+    alt Update success
+
+Service --> Controller: Return radical
+Controller --> fe: Return radical
+fe --> User: Return message
+
+    else Update fail
+
+Service --> Controller--: Return null
+Controller --> fe--: Status update fail
+fe --> User--: Error message
+
+end
+
+end
+
 
 
 @enduml

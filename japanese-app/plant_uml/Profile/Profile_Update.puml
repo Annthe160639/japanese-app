@@ -5,7 +5,8 @@ autonumber
 
 actor User
 
-participant "Update Profile frontend" as fe
+participant "ProfileActivity" as Activity
+participant "ProfileRetrofit" as Re
 participant "ProfileController" as Controller
 participant "ProfileService" as Service
 participant "ProfileRepository" as Repository
@@ -13,18 +14,19 @@ participant "ProfileRepository" as Repository
 database Database
 activate User
 
-User -> fe++: Click on the profile to update
+User -> Activity++: Click on the profile to update
 
-fe -> Controller++: HTTP POST /api/update_profile
+Activity -> Re++: Send api/radical/update-profile
+Re -> Controller++: HTTP POST /api/profile
 
 Controller -> Controller: Validate input data
 activate Controller
 deactivate Controller
 
 alt Validate fail
-Controller-->fe: Error status
-fe-->User: Error message
-fe-->User: Request user re-enter
+Controller-->Re: Error status
+Re-->Activity: Error message
+Activity-->User: Request user re-enter
 else Validate success
 Controller -> Service++: Call updateProfile()
 Service -> Repository++: Call updateProfile()
@@ -34,16 +36,17 @@ Repository --> Service--: Return data
 
     alt Update success
 
-Service --> Controller: Return profile
-Controller --> fe: Return profile
-fe --> User: Return message
+Service --> Controller: Return account
+Controller --> Re: Return account
+Re --> Activity: Return message
+Activity --> User: Return message
 
     else Update fail
 
 Service --> Controller--: Return null
-Controller --> fe--: Status update fail
-fe --> User--: Error message
-
+Controller --> Re--: Status update fail
+Re --> Activity--: Error message
+Activity --> User--:  Error message
 end
 
 end

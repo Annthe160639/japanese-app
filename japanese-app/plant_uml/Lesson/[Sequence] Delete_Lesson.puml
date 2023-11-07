@@ -5,27 +5,37 @@ autonumber
 
 actor User
 
-participant "Create Lesson frontend" as fe
+participant "LessonActivity" as Lesson
+participant "Retrofit" as Retrofit
 participant "LessonController" as Controller
 participant "LessonService" as Service
-participant "LessonRepository" as Repository
+participant "LessonRepository" as Repo
 
 database Database
 activate User
-
-User -> fe++: Click on the letter you want to delete
-
-fe -> Controller++: HTTP POST /api/delete_lesson
+alt Success
+User -> Lesson++: Click on lesson
+Lesson -> Retrofit++: Send api/lesson/delete-lesson
+Retrofit -> Controller++: HTTP POST api/lesson/delete-lesson
 Controller -> Service++: Call deleteLesson()
-Service -> Repository++: Call deleteLesson()
-Repository -> Database++: Delete data
+Service -> Repo++: Call deleteLesson()
+Repo -> Database++: Query data
+alt Success
+Database-->Repo: Return data
+Repo-->Service: Return data
 
-Database --> Repository--: Return result
-Repository --> Service--: Return result
-Service --> Controller--: Return result
-Controller --> fe--: Return result
-fe --> User--: Show message
+Service-->Controller: Return result
+Controller-->Retrofit: Return result
+Retrofit --> Lesson: Return result
+Lesson --> User: Delete lesson
 
-
+else Fail
+Database-->Repo--:Return null
+Repo-->Service--:Return null
+Service-->Controller--: Return null
+Controller-->Retrofit--: Return null
+Retrofit --> Lesson--: Return null
+Lesson --> User--: Error message
+end
 
 @enduml

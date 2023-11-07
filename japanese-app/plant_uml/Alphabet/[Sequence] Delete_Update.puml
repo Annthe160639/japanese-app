@@ -5,27 +5,40 @@ autonumber
 
 actor User
 
-participant "Create Alphabet frontend" as fe
+participant "AlphabetActivity" as Alphabet
+participant "Retrofit" as Retrofit
 participant "AlphabetController" as Controller
 participant "AlphabetService" as Service
-participant "AlphabetRepository" as Repository
+participant "AlphabetRepository" as Repo
 
 database Database
 activate User
 
-User -> fe++: Click on the letter you want to delete
-
-fe -> Controller++: HTTP POST /api/delete_alphabet
+User -> Alphabet++: Click on alphabet
+Alphabet -> Retrofit++: Send api/alphabet/delete-alphabet
+Retrofit -> Controller++: HTTP POST api/alphabet/delete-alphabet
 Controller -> Service++: Call deleteAlphabet()
-Service -> Repository++: Call deleteAlphabet()
-Repository -> Database++: Delete data
+Service -> Repo++: Call deleteAlphabet()
+Repo -> Database++: Delete data
+alt Success
+Database-->Repo: Return result
+Repo-->Service: Return result
 
-Database --> Repository--: Return result
-Repository --> Service--: Return result
-Service --> Controller--: Return result
-Controller --> fe--: Return result
-fe --> User--: Show message
 
+Service-->Controller: Return result
+Controller-->Retrofit: Return result
+Retrofit --> Alphabet: Return result
+Alphabet --> User: Show message
+
+else Fail
+
+Database --> Repo--:Return null
+Repo-->Service--:Return null
+Service-->Controller--: Return null
+Controller-->Retrofit--: Return null
+Retrofit --> Alphabet--: Return null
+Alphabet --> User--: Error message
+end
 
 
 @enduml
